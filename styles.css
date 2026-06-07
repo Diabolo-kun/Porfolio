@@ -463,20 +463,11 @@ html, body {
 .submenu-list-container {
     width: 100%;
     max-width: 700px;
-    height: 550px; /* Exactamente el espacio para 8 elementos (8*60px + 7*10px gap) */
-    overflow-y: auto;
-    overflow-x: hidden;
+    height: 550px; /* Exactamente 8 elementos: 8*60px + 7*10px gap */
+    overflow: hidden; /* Sin scroll nativo - controlado 100% por JS */
     display: flex;
     flex-direction: column;
     align-items: stretch;
-    padding-left: 15px; /* Para separar del scrollbar a la izquierda */
-    direction: rtl; /* Mueve el scrollbar a la izquierda */
-    scroll-snap-type: y mandatory; /* Obliga a alinear los elementos enteros al hacer scroll manual */
-}
-
-/* Devolver el texto a dirección normal (de izquierda a derecha) */
-.submenu-list-container > * {
-    direction: ltr;
 }
 
 .content-section {
@@ -515,7 +506,7 @@ html, body {
     text-transform: uppercase;
     font-style: italic;
     clip-path: polygon(0 0, 100% 0, 85% 100%, 0 100%); /* Inclinación derecha muy pronunciada */
-    scroll-snap-align: start; /* El elemento se anclará al inicio de la caja */
+    flex-shrink: 0; /* Mantener altura fija, sin comprimir */
 }
 
 .submenu-item .sub-arrow {

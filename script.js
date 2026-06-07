@@ -153,7 +153,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if(submenuTitleText) submenuTitleText.textContent = targetId;
 
         subIndex = 0;
-        updateSubmenuVisuals();
+        windowTop = 0;
+        updateSubmenuVisuals('keyboard');
     }
 
     function closeSubmenu() {
@@ -184,6 +185,9 @@ document.addEventListener('DOMContentLoaded', () => {
        4. LÓGICA DE SUBMENÚS Y NAVEGACIÓN POR TECLADO
        ========================================================================== */
     let subIndex = 0;
+    let windowTop = 0; // Índice del primer ítem visible en la ventana de 8
+    const VISIBLE_COUNT = 8;
+    const ITEM_HEIGHT = 70; // 60px altura + 10px gap
     
     function getCurrentSubmenuItems() {
         if (currentView !== 'submenu') return [];
@@ -193,40 +197,86 @@ document.addEventListener('DOMContentLoaded', () => {
         return activeListPane.querySelectorAll('.submenu-item');
     }
 
-    let hoverTimeout = null;
+    // Ajusta la ventana visible según la posición del ítem seleccionado
+    // source: 'keyboard', 'wheel' o 'mouse'
+    function adjustWindow(source) {
+        const items = getCurrentSubmenuItems();
+        const total = items.length;
+        if (total === 0) return;
+        const maxTop = Math.max(0, total - VISIBLE_COUNT);
+
+        if (source === 'mouse') {
+            // Con ratón: solo asegurar que el ítem esté dentro de los 8 visibles
+            if (subIndex < windowTop) {
+                windowTop = subIndex;
+            } else if (subIndex >= windowTop + VISIBLE_COUNT) {
+                windowTop = subIndex - VISIBLE_COUNT + 1;
+            }
+        } else {
+            // Con teclado/rueda: mantener selección entre posición 2 y 7 (0-indexed: 1 y 6)
+            if (subIndex === 0) {
+                // Primer ítem absoluto: puede estar en posición 1
+                windowTop = 0;
+            } else if (subIndex === total - 1) {
+                // Último ítem absoluto: puede estar en posición 8
+                windowTop = Math.max(0, total - VISIBLE_COUNT);
+            } else {
+                // Caso normal: seleccionado entre posición 2 y 7
+                if (subIndex < windowTop + 1) {
+                    windowTop = subIndex - 1;
+                }
+                if (subIndex > windowTop + VISIBLE_COUNT - 2) {
+                    windowTop = subIndex - VISIBLE_COUNT + 2;
+                }
+            }
+        }
+
+        // Clamp
+        windowTop = Math.max(0, Math.min(windowTop, maxTop));
+    }
+
+    function applyWindowScroll() {
+        const targetId = navButtons[mainIndex].getAttribute('data-target');
+        const activeListPane = document.querySelector(`#${targetId} .list-pane`);
+        if (!activeListPane) return;
+        // Movemos el list-pane entero con transform para un posicionamiento exacto
+        activeListPane.style.transform = `translateY(-${windowTop * ITEM_HEIGHT}px)`;
+        activeListPane.style.transition = 'transform 0.15s ease-out';
+    }
 
     function attachSubmenuHoverLogic(items) {
         items.forEach((item, index) => {
-            // Evitar duplicar listeners
             if(item.dataset.hasHoverLogic) return;
             item.dataset.hasHoverLogic = 'true';
 
             item.addEventListener('mouseenter', () => {
                 if (currentView !== 'submenu') return;
-                
-                // Actualización inmediata al pasar el ratón, igual que en el menú principal
                 subIndex = index;
-                updateSubmenuVisuals(false); // Falso para no forzar el auto-scroll al usar el ratón
+                adjustWindow('mouse');
+                applyWindowScroll();
+                renderSubmenuSelection(items);
             });
         });
     }
 
-    function updateSubmenuVisuals(autoScroll = true) {
-        const items = getCurrentSubmenuItems();
-        if (items.length === 0) return;
-
-        attachSubmenuHoverLogic(items);
-
+    function renderSubmenuSelection(items) {
         items.forEach((item, i) => {
             if (i === subIndex) {
                 item.classList.add('hovered');
-                if(autoScroll) {
-                    item.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-                }
             } else {
                 item.classList.remove('hovered');
             }
         });
+    }
+
+    function updateSubmenuVisuals(source = 'mouse') {
+        const items = getCurrentSubmenuItems();
+        if (items.length === 0) return;
+
+        attachSubmenuHoverLogic(items);
+        adjustWindow(source);
+        applyWindowScroll();
+        renderSubmenuSelection(items);
 
         if(items[subIndex]) {
             items[subIndex].click(); 
@@ -272,12 +322,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (e.key === 'ArrowUp') {
                     if (items.length > 0) {
                         subIndex = (subIndex > 0) ? subIndex - 1 : items.length - 1;
-                        updateSubmenuVisuals(true);
+                        updateSubmenuVisuals('keyboard');
                     }
                 } else if (e.key === 'ArrowDown') {
                     if (items.length > 0) {
                         subIndex = (subIndex < items.length - 1) ? subIndex + 1 : 0;
-                        updateSubmenuVisuals(true);
+                        updateSubmenuVisuals('keyboard');
                     }
                 }
             } else if (e.key === 'Escape' || e.key === 'Backspace') {
@@ -290,7 +340,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Control de rueda del ratón en todo el documento para el submenú
     document.addEventListener('wheel', (e) => {
         if (currentView === 'submenu') {
-            e.preventDefault(); // Evitamos el scroll nativo
+            e.preventDefault();
 
             const items = getCurrentSubmenuItems();
             if (items.length === 0) return;
@@ -298,19 +348,17 @@ document.addEventListener('DOMContentLoaded', () => {
             // Prevenir scroll demasiado rápido (pequeño throttle)
             if (window.wheelThrottle) return;
             window.wheelThrottle = true;
-            setTimeout(() => { window.wheelThrottle = false; }, 150);
+            setTimeout(() => { window.wheelThrottle = false; }, 80);
 
             if (e.deltaY > 0) {
-                // Scroll hacia abajo
                 subIndex = (subIndex < items.length - 1) ? subIndex + 1 : 0;
             } else if (e.deltaY < 0) {
-                // Scroll hacia arriba
                 subIndex = (subIndex > 0) ? subIndex - 1 : items.length - 1;
             }
             
-            updateSubmenuVisuals(true); // true para que haga scroll IntoView
+            updateSubmenuVisuals('wheel');
         }
-    }, { passive: false }); // passive: false es necesario para usar preventDefault
+    }, { passive: false });
 
     /* ==========================================================================
        5. DATOS DE EXPERIENCIA Y GITHUB
@@ -334,7 +382,9 @@ document.addEventListener('DOMContentLoaded', () => {
             btn.addEventListener('mouseenter', () => {
                 if(currentView === 'submenu') {
                     subIndex = idx;
-                    updateSubmenuVisuals();
+                    adjustWindow('mouse');
+                    applyWindowScroll();
+                    renderSubmenuSelection(getCurrentSubmenuItems());
                 }
             });
 
