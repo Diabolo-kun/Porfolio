@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Portfolio - Informática, Electrónica y Robótica</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;600;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="game-container">
+
+    <!-- FASE DE INTRO -->
+    <section id="intro" class="intro-screen">
+        <div class="intro-content">
+            <div class="silhouette-container">
+                <div class="abstract-silhouette"></div>
+            </div>
+            <button id="start-btn" class="start-button">COMMENCE</button>
+        </div>
+        <div class="intro-bg-elements">
+            <div class="circle-accent"></div>
+            <div class="line-accent"></div>
+        </div>
+    </section>
+
+    <!-- MENÚ PRINCIPAL Y CONTENIDO -->
+    <main id="main-layout" class="hidden">
+        
+        <!-- Lado Izquierdo: Retrato Dinámico -->
+        <aside class="left-panel">
+            <div class="portrait-container">
+                <img id="portrait-base" src="img/rostro_abiertos.png" alt="Retrato Base" class="portrait-layer">
+                <img id="portrait-blink" src="img/rostro_cerrados.png" alt="Retrato Parpadeo" class="portrait-layer blink-layer">
+            </div>
+            <div class="geo-shape shape-circle"></div>
+            <div class="geo-shape shape-rect"></div>
+        </aside>
+
+        <!-- Lado Derecho: Menú y Contenido -->
+        <section class="right-panel" id="right-panel">
+            
+            <!-- CONTENEDOR DEL MENÚ PRINCIPAL -->
+            <div id="main-menu-container" class="view-container active">
+                <header class="bauhaus-header">
+                    <nav class="main-nav" id="main-nav">
+                        <button class="nav-btn" data-target="perfil" data-index="0">
+                            <span class="btn-bg bg-yellow"></span>
+                            <span class="btn-text">PERFIL</span>
+                        </button>
+                        <button class="nav-btn" data-target="proyectos" data-index="1">
+                            <span class="btn-bg bg-cyan"></span>
+                            <span class="btn-text">PROYECTOS</span>
+                        </button>
+                        <button class="nav-btn" data-target="experiencia" data-index="2">
+                            <span class="btn-bg bg-coral"></span>
+                            <span class="btn-text">EXPERIENCIA</span>
+                        </button>
+                    </nav>
+                </header>
+                <div class="menu-instructions">
+                    <p>Usa <span>↑</span> <span>↓</span> para navegar | <span>ENTER</span> para seleccionar</p>
+                    <p style="margin-top: 10px;">
+                        <button id="back-to-intro-btn" class="discrete-btn"><span>ESC</span> para volver al inicio</button>
+                    </p>
+                </div>
+            </div>
+
+            <!-- CONTENEDOR DE SUBMENÚS (Se pone "encima" ocultando el principal) -->
+            <div id="submenu-container" class="view-container hidden">
+                
+                <button id="back-btn" class="back-button">
+                    <span class="back-icon">◀</span> VOLVER [ESC]
+                </button>
+
+                <div class="content-area">
+                    
+                    <!-- SECCIÓN PERFIL -->
+                    <article id="perfil" class="content-section">
+                        <div class="section-header">
+                            <h2>01.</h2>
+                            <h3>INGENIERO & DESARROLLADOR</h3>
+                        </div>
+                        <div class="scrollable-content custom-scrollbar">
+                            <div class="text-block">
+                                <p class="highlight-text">
+                                    Desarrollador e Ingeniero enfocado en Informática, Electrónica y Robótica. Especializado en el diseño de sistemas embebidos, control automatizado y programación de software ágil.
+                                </p>
+                                
+                                <div class="tech-stack">
+                                    <h4>TECNOLOGÍAS CLAVE</h4>
+                                    <div class="tags-container">
+                                        <span class="tech-tag">ROS2</span>
+                                        <span class="tech-tag">C/C++</span>
+                                        <span class="tech-tag">Rust</span>
+                                        <span class="tech-tag">Python</span>
+                                        <span class="tech-tag">ESP32</span>
+                                        <span class="tech-tag">Arduino</span>
+                                        <span class="tech-tag">Raspberry Pi</span>
+                                        <span class="tech-tag">PID</span>
+                                        <span class="tech-tag">Matlab/Simulink</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- SECCIÓN PROYECTOS -->
+                    <article id="proyectos" class="content-section">
+                        <div class="section-header">
+                            <h2>02.</h2>
+                            <h3>PROYECTOS DESTACADOS</h3>
+                        </div>
+                        <div class="split-view">
+                            <div class="list-pane custom-scrollbar" id="github-list">
+                                <p class="loading-text">Cargando repositorios...</p>
+                            </div>
+                            <div class="detail-pane custom-scrollbar" id="github-details">
+                                <div class="empty-state">
+                                    <span class="empty-icon">▨</span>
+                                    <p>SELECCIONA UN PROYECTO</p>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- SECCIÓN EXPERIENCIA -->
+                    <article id="experiencia" class="content-section">
+                        <div class="section-header">
+                            <h2>03.</h2>
+                            <h3>TRAYECTORIA & CONTACTO</h3>
+                        </div>
+                        <div class="split-view">
+                            <div class="list-pane custom-scrollbar" id="exp-list">
+                                <!-- Se inyecta desde JS -->
+                            </div>
+                            <div class="detail-pane custom-scrollbar" id="exp-details">
+                                <!-- Se inyecta desde JS -->
+                            </div>
+                        </div>
+                    </article>
+
+                </div>
+            </div>
+
+        </section>
+    </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
