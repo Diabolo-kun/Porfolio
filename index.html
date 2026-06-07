@@ -16,32 +16,56 @@
     <!-- FASE DE INTRO -->
     <section id="intro" class="intro-screen">
         <div class="intro-content">
-            <div class="silhouette-container">
-                <div class="abstract-silhouette"></div>
+            <div class="intro-left">
+                <h1 class="intro-name">
+                    <span class="name-line">Manuel</span>
+                    <span class="name-line">Perez</span>
+                    <span class="name-line">Garcia</span>
+                </h1>
             </div>
-            <button id="start-btn" class="start-button">COMMENCE</button>
+            <div class="intro-right">
+                <div class="intro-photo-wrapper">
+                    <img src="img/intro-photo.jpg" alt="Manuel Perez Garcia" class="intro-photo">
+                </div>
+            </div>
         </div>
+        <button id="start-btn" class="start-button">START</button>
         <div class="intro-bg-elements">
-            <div class="circle-accent"></div>
-            <div class="line-accent"></div>
+            <div class="intro-line intro-line-1"></div>
+            <div class="intro-line intro-line-2"></div>
+            <div class="intro-line intro-line-3"></div>
         </div>
     </section>
+
+    <!-- OVERLAY DE TRANSICIÓN: Grid 3x3 -->
+    <div id="grid-overlay" class="grid-overlay hidden">
+        <div class="grid-cell" data-row="0" data-col="0"></div>
+        <div class="grid-cell" data-row="0" data-col="1"></div>
+        <div class="grid-cell" data-row="0" data-col="2"></div>
+        <div class="grid-cell" data-row="1" data-col="0"></div>
+        <div class="grid-cell" data-row="1" data-col="1"></div>
+        <div class="grid-cell" data-row="1" data-col="2"></div>
+        <div class="grid-cell" data-row="2" data-col="0"></div>
+        <div class="grid-cell" data-row="2" data-col="1"></div>
+        <div class="grid-cell" data-row="2" data-col="2"></div>
+        <svg class="grid-lines" viewBox="0 0 100 100" preserveAspectRatio="none">
+            <line class="grid-line h-line" x1="0" y1="33.33" x2="100" y2="33.33"/>
+            <line class="grid-line h-line" x1="0" y1="66.66" x2="100" y2="66.66"/>
+            <line class="grid-line v-line" x1="33.33" y1="0" x2="33.33" y2="100"/>
+            <line class="grid-line v-line" x1="66.66" y1="0" x2="66.66" y2="100"/>
+        </svg>
+    </div>
 
     <!-- MENÚ PRINCIPAL Y CONTENIDO -->
     <main id="main-layout" class="hidden">
         
-        <!-- Lado Izquierdo: Retrato Dinámico -->
-        <aside class="left-panel">
-            <div class="portrait-container">
-                <img id="portrait-base" src="img/rostro_abiertos.png" alt="Retrato Base" class="portrait-layer">
-                <img id="portrait-blink" src="img/rostro_cerrados.png" alt="Retrato Parpadeo" class="portrait-layer blink-layer">
-            </div>
-            <div class="geo-shape shape-circle"></div>
-            <div class="geo-shape shape-rect"></div>
-        </aside>
+        <!-- Retrato Cara.png - fondo centrado, altura completa -->
+        <div class="portrait-bg">
+            <img id="portrait-base" src="img/Cara.png" alt="Retrato Geométrico" class="portrait-img">
+        </div>
 
-        <!-- Lado Derecho: Menú y Contenido -->
-        <section class="right-panel" id="right-panel">
+        <!-- Capa de menú y contenido (superpuesta sobre el retrato) -->
+        <section class="menu-layer" id="right-panel">
             
             <!-- CONTENEDOR DEL MENÚ PRINCIPAL -->
             <div id="main-menu-container" class="view-container active">

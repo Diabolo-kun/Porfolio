@@ -1,66 +1,81 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-
-
     /* ==========================================================================
        1. TRANSICIÓN DE LA INTRO AL MENÚ PRINCIPAL
+       Animación: líneas grid → celdas turquesa entran desde izquierda (cortina)
+       → grid se desvanece revelando el menú debajo
        ========================================================================== */
     const startBtn = document.getElementById('start-btn');
     const introScreen = document.getElementById('intro');
     const mainLayout = document.getElementById('main-layout');
-    const rightPanel = document.getElementById('right-panel');
+    const gridOverlay = document.getElementById('grid-overlay');
 
     let currentView = 'intro'; // 'intro', 'menu', 'submenu'
 
     if (startBtn) {
         startBtn.addEventListener('click', () => {
-            introScreen.classList.add('fade-out');
-            mainLayout.classList.remove('hidden');
-            rightPanel.classList.add('animate-in'); // Animación desde la derecha
-
-            setTimeout(() => {
-                introScreen.style.display = 'none';
-                currentView = 'menu';
-                updateMainMenuVisuals(); // Selecciona la primera opción por defecto
-                fetchGitHubRepos(); // Pre-cargar
-            }, 800); 
+            if (currentView !== 'intro') return;
+            startTransition();
         });
+    }
+
+    function startTransition() {
+        // FASE 1: Mostrar overlay y dibujar las líneas del grid
+        gridOverlay.classList.remove('hidden');
+        gridOverlay.classList.add('phase-lines');
+
+        // FASE 2: Celdas turquesa entran desde la izquierda
+        setTimeout(() => {
+            gridOverlay.classList.add('phase-cover');
+        }, 500);
+
+        // FASE 3: El menú (transparente) entra siguiendo la cortina
+        setTimeout(() => {
+            mainLayout.classList.remove('hidden');
+            mainLayout.classList.add('slide-in');
+        }, 700);
+
+        // FASE 4: Ocultar intro 
+        setTimeout(() => {
+            introScreen.style.display = 'none';
+        }, 1300);
+
+        // FASE 5: Solidificar fondo del menú y quitar grid
+        setTimeout(() => {
+            mainLayout.style.backgroundColor = 'var(--color-turquoise)';
+            gridOverlay.classList.add('hidden');
+            gridOverlay.className = 'grid-overlay hidden';
+        }, 1600);
+
+        // FASE 6: Animar aparición de los botones del menú
+        setTimeout(() => {
+            currentView = 'menu';
+            const navBtns = document.querySelectorAll('.nav-btn');
+            navBtns.forEach(btn => btn.classList.add('menu-reveal'));
+            updateMainMenuVisuals();
+            fetchGitHubRepos();
+        }, 1700);
     }
 
     function returnToIntro() {
         if (currentView !== 'menu') return;
         currentView = 'intro';
 
-        rightPanel.classList.remove('animate-in');
-        rightPanel.classList.add('animate-out');
-
+        mainLayout.style.backgroundColor = 'transparent';
+        mainLayout.classList.remove('slide-in');
+        mainLayout.classList.add('hidden');
+        
         introScreen.style.display = 'flex';
-        setTimeout(() => {
-            introScreen.classList.remove('fade-out');
-        }, 10);
-
-        setTimeout(() => {
-            mainLayout.classList.add('hidden');
-            rightPanel.classList.remove('animate-out');
-        }, 500);
+        introScreen.style.opacity = '1';
+        
+        const navBtns = document.querySelectorAll('.nav-btn');
+        navBtns.forEach(btn => btn.classList.remove('menu-reveal'));
     }
 
     const backToIntroBtn = document.getElementById('back-to-intro-btn');
     if (backToIntroBtn) {
         backToIntroBtn.addEventListener('click', returnToIntro);
     }
-
-    /* ==========================================================================
-       2. EFECTO DE PARPADEO DEL RETRATO
-       ========================================================================== */
-    const blinkLayer = document.getElementById('portrait-blink');
-    function triggerBlink() {
-        if (!blinkLayer) return;
-        blinkLayer.style.opacity = '1';
-        setTimeout(() => { blinkLayer.style.opacity = '0'; }, 150);
-        setTimeout(triggerBlink, Math.random() * 4000 + 2000);
-    }
-    setTimeout(triggerBlink, 3000);
 
 
     /* ==========================================================================
@@ -72,7 +87,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const sections = document.querySelectorAll('.content-section');
     const backBtn = document.getElementById('back-btn');
 
-    let mainIndex = 0; // 0: Perfil, 1: Proyectos, 2: Experiencia
+    let mainIndex = 0;
 
     function updateMainMenuVisuals() {
         if (currentView !== 'menu') return;
@@ -85,11 +100,9 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        // Actualizar efectos del panel izquierdo
         document.body.className = `nav-active-${mainIndex}`;
     }
 
-    // Interacción con ratón: Al pasar el ratón, se actualiza el index y se queda fijo
     navButtons.forEach((btn, index) => {
         btn.addEventListener('mouseenter', () => {
             if (currentView === 'menu') {
@@ -109,21 +122,18 @@ document.addEventListener('DOMContentLoaded', () => {
     function openSubmenu() {
         currentView = 'submenu';
         
-        // Ocultar menú principal y mostrar overlay
         mainMenuContainer.classList.remove('active');
         mainMenuContainer.classList.add('hidden-view');
         
-        submenuContainer.classList.remove('hidden'); // por si acaso
+        submenuContainer.classList.remove('hidden');
         submenuContainer.classList.remove('hidden-view');
         submenuContainer.classList.add('active');
 
-        // Mostrar sección correcta
         sections.forEach(sec => sec.classList.remove('active'));
         const targetId = navButtons[mainIndex].getAttribute('data-target');
         const targetSection = document.getElementById(targetId);
         if (targetSection) targetSection.classList.add('active');
 
-        // Resetear subíndice (para navegar por los submenús)
         subIndex = 0;
         updateSubmenuVisuals();
     }
@@ -148,9 +158,8 @@ document.addEventListener('DOMContentLoaded', () => {
     /* ==========================================================================
        4. LÓGICA DE SUBMENÚS Y NAVEGACIÓN POR TECLADO
        ========================================================================== */
-    let subIndex = 0; // Índice para navegar dentro del Submenu A
+    let subIndex = 0;
     
-    // Obtenemos los botones actuales según la sección activa
     function getCurrentSubmenuItems() {
         if (currentView !== 'submenu') return [];
         const targetId = navButtons[mainIndex].getAttribute('data-target');
@@ -165,15 +174,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
         items.forEach((item, i) => {
             if (i === subIndex) {
-                item.classList.add('hovered'); // Simulamos que está seleccionado/hovered
-                // Auto-scroll si está fuera de vista
+                item.classList.add('hovered');
                 item.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
             } else {
                 item.classList.remove('hovered');
             }
         });
 
-        // Auto-mostrar el detalle del elemento seleccionado (como en un juego)
         if(items[subIndex]) {
             items[subIndex].click(); 
         }
@@ -227,7 +234,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     /* ==========================================================================
-       5. DATOS DE EXPERIENCIA Y GITHUB (INYECCIÓN DE MOCK Y FETCH)
+       5. DATOS DE EXPERIENCIA Y GITHUB
        ========================================================================== */
     const expData = [
         { id: 'exp1', title: "Ingeniero de Robótica", subtitle: "Empresa S.A. | 2023 - Presente", body: "<p>Desarrollo de brazos robóticos con ROS2.</p><ul><li>Control cinemático</li></ul>" },
@@ -239,7 +246,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const expListPane = document.getElementById('exp-list');
     const expDetailsPane = document.getElementById('exp-details');
 
-    // Generar botones de experiencia dinámicamente
     if (expListPane) {
         expListPane.innerHTML = '';
         expData.forEach((item, idx) => {
@@ -247,11 +253,10 @@ document.addEventListener('DOMContentLoaded', () => {
             btn.className = 'submenu-item';
             btn.innerHTML = `<span class="sub-arrow">▶</span> ${item.title}`;
             
-            // Mouse Interaction
             btn.addEventListener('mouseenter', () => {
                 if(currentView === 'submenu') {
                     subIndex = idx;
-                    updateSubmenuVisuals(); // Actualiza selección
+                    updateSubmenuVisuals();
                 }
             });
 
