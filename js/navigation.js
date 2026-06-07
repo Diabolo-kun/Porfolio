@@ -40,7 +40,19 @@ navButtons.forEach((btn, index) => {
     btn.addEventListener('click', () => {
         if (currentView === 'menu') {
             mainIndex = index;
-            openSubmenu();
+            if (btn.classList.contains('direct-action')) {
+                const action = btn.getAttribute('data-action');
+                if (action === 'link') window.open(btn.getAttribute('data-url'), '_blank');
+                else if (action === 'mailto') window.location.href = `mailto:${btn.getAttribute('data-email')}`;
+                else if (action === 'download') {
+                    const a = document.createElement('a');
+                    a.href = btn.getAttribute('data-file');
+                    a.download = 'Manuel_Perez_CV.pdf';
+                    a.click();
+                }
+            } else {
+                openSubmenu();
+            }
         }
     });
 });
@@ -237,7 +249,12 @@ document.addEventListener('keydown', (e) => {
             updateMainMenuVisuals();
         } else if (e.key === 'Enter') {
             e.preventDefault();
-            openSubmenu();
+            const btn = navButtons[mainIndex];
+            if (btn.classList.contains('direct-action')) {
+                btn.click(); // Reutilizamos la lógica del click
+            } else {
+                openSubmenu();
+            }
         } else if (e.key === 'Escape' || e.key === 'Backspace') {
             e.preventDefault();
             returnToIntro();

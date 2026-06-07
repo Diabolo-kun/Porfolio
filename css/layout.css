@@ -33,7 +33,8 @@
     width: 100%; height: 100%;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
+    padding-left: 8%; /* Desplazar a la izquierda */
     z-index: 1;
     pointer-events: none;
     transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
@@ -70,56 +71,76 @@
 #main-menu-container.active { transform: translateX(0); opacity: 1; pointer-events: all; z-index: 2; }
 #main-menu-container.hidden-view { transform: translateX(-50px); opacity: 0; pointer-events: none; z-index: 0; }
 
-#main-menu-container { justify-content: center; align-items: flex-end; }
+#main-menu-container { justify-content: center; align-items: flex-start; padding-left: 40%; }
 
-.bauhaus-header { flex: 0 0 auto; margin-bottom: 20px; width: auto; }
-.main-nav { display: flex; flex-direction: column; align-items: flex-end; gap: 12px; }
+.bauhaus-header { flex: 0 0 auto; margin-bottom: 20px; width: auto; perspective: 800px; }
+.main-nav { 
+    display: flex; 
+    flex-direction: column; 
+    align-items: flex-start; 
+    gap: 10px; 
+    transform-style: preserve-3d;
+}
 
 .nav-btn {
     position: relative; background: none; border: none; cursor: pointer;
-    text-align: right; padding: 14px 30px; min-width: 350px; outline: none;
+    text-align: left; padding: 14px 40px; min-width: 380px; outline: none;
     opacity: 0;
-    transform: translateX(60px);
+    transform-origin: left center;
+    /* Efecto inicial de entrada desde la izquierda */
+    transform: rotateY(-22deg) rotateZ(-3deg) scale(0.9) translateX(-40px);
 }
 
+/* Animación de revelado con perspectiva: La izquierda (fuga) se ve más pequeña */
 .nav-btn.menu-reveal {
     animation: menuItemReveal 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
-.nav-btn.menu-reveal:nth-child(1) { animation-delay: 0.1s; }
-.nav-btn.menu-reveal:nth-child(2) { animation-delay: 0.25s; }
-.nav-btn.menu-reveal:nth-child(3) { animation-delay: 0.4s; }
+
+/* Escalonamiento de los botones formando escalera hacia la derecha */
+.nav-btn[data-index="0"] { margin-left: 0px;   animation-delay: 0.10s; }
+.nav-btn[data-index="1"] { margin-left: 35px;  animation-delay: 0.15s; }
+.nav-btn[data-index="2"] { margin-left: 70px;  animation-delay: 0.20s; }
+.nav-btn[data-index="3"] { margin-left: 105px; animation-delay: 0.25s; }
+.nav-btn[data-index="4"] { margin-left: 140px; animation-delay: 0.30s; }
+.nav-btn[data-index="5"] { margin-left: 175px; animation-delay: 0.35s; }
 
 @keyframes menuItemReveal {
-    to { opacity: 1; transform: translateX(0); }
+    to { 
+        opacity: 1; 
+        transform: rotateY(-22deg) rotateZ(-3deg) scale(1) translateX(0); 
+    }
 }
 
 .nav-btn .btn-text {
     position: relative;
-    font-family: var(--font-heading); font-size: 3.8rem; font-weight: 800;
+    font-family: var(--font-heading); font-size: 4rem; font-weight: 800;
     color: var(--color-black);
     text-transform: uppercase; z-index: 2;
     transition: var(--transition-fast);
     line-height: 0.95;
     letter-spacing: -1px;
-    text-shadow: 2px 2px 0px rgba(45, 211, 187, 0.5);
+    text-shadow: -2px 2px 0px rgba(45, 211, 187, 0.5); /* Sombra hacia la izquierda */
 }
 
 .nav-btn .btn-bg {
-    position: absolute; top: 0; right: 0;
+    position: absolute; top: 0; left: 0; /* Nace desde la izquierda */
     width: 0; height: 100%; z-index: 1;
     transition: width 0.35s cubic-bezier(0.25, 1, 0.5, 1);
     opacity: 0.6;
-    transform: skewX(-6deg);
+    transform: skewX(12deg); /* Inclinación de la caja roja/amarilla */
 }
 .bg-yellow { background-color: var(--color-yellow); }
 .bg-cyan { background-color: rgba(255,255,255,0.6); }
 .bg-coral { background-color: var(--color-coral); }
 
-.nav-btn.active .btn-bg { width: 110%; opacity: 0.7; }
-.nav-btn.active .btn-text { color: var(--color-dark); padding-right: 10px; }
+.nav-btn.active .btn-bg { width: 110%; opacity: 0.8; }
+.nav-btn.active .btn-text { color: var(--color-dark); padding-left: 15px; } /* Desplazar texto al seleccionar */
 
 .menu-instructions {
-    margin-top: 40px; font-weight: 600; color: rgba(0,0,0,0.4); font-size: 0.85rem; text-align: right;
+    margin-top: 40px; font-weight: 600; color: rgba(0,0,0,0.4); font-size: 0.85rem; text-align: left;
+    margin-left: 200px; /* Para alinear bajo los últimos ítems escalonados */
+    transform-origin: left center;
+    transform: rotateY(-22deg) rotateZ(-3deg);
 }
 .menu-instructions span {
     display: inline-block; background-color: var(--color-black); color: var(--color-light);

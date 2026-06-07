@@ -4,24 +4,66 @@
  * @author Manuel Perez
  */
 
-const expData = [
-    { id: 'exp1', title: "Ingeniero de Robótica", subtitle: "Empresa S.A. | 2023 - Presente", desc: "Desarrollo de brazos robóticos con ROS2, control cinemático y visión artificial." },
-    { id: 'exp2', title: "Desarrollador Embebido", subtitle: "Tech Solutions | 2020 - 2023", desc: "Microcontroladores IoT (ESP32, STM32). Firmware en C/C++ y Rust." },
-    { id: 'edu1', title: "Grado en Ingeniería", subtitle: "Universidad Politécnica | 2016 - 2020", desc: "Especialización en Electrónica. Matrícula de Honor en Control." },
-    { id: 'contacto', title: "Datos de Contacto", subtitle: "¡Hablemos!", desc: "Email, LinkedIn y otras vías para ponerte en contacto conmigo." }
-];
+// PERFIL - Carga dinámica desde /data/perfil.json
+let perfilLoaded = false;
 
-const expListPane = document.getElementById('exp-list');
+/**
+ * @brief Carga dinámicamente el perfil desde JSON.
+ */
+async function loadPerfil() {
+    if (perfilLoaded) return;
+    const listPane = document.getElementById('perfil-list');
+    if (!listPane) return;
 
-if (expListPane) {
-    expListPane.innerHTML = '';
-    expData.forEach((item, idx) => {
-        const btn = document.createElement('button');
-        btn.className = 'submenu-item';
-        btn.setAttribute('data-description', item.desc);
-        btn.innerHTML = `<span class="sub-arrow">▶</span> ${item.title}`;
-        expListPane.appendChild(btn);
-    });
+    try {
+        const resp = await fetch('data/perfil.json');
+        if (!resp.ok) throw new Error('No se pudo cargar perfil.json');
+        const perfilData = await resp.json();
+
+        listPane.innerHTML = '';
+        perfilData.forEach((item) => {
+            const btn = document.createElement('button');
+            btn.className = 'submenu-item';
+            btn.setAttribute('data-description', item.descripcion);
+            btn.innerHTML = `<span class="sub-arrow">▶</span> ${item.titulo}`;
+            listPane.appendChild(btn);
+        });
+        perfilLoaded = true;
+    } catch (error) {
+        console.error('Error cargando perfil:', error);
+        listPane.innerHTML = '<p>Error al cargar perfil.</p>';
+    }
+}
+
+// EXPERIENCIA - Carga dinámica desde /data/experiencia.json
+let experienciaLoaded = false;
+
+/**
+ * @brief Carga dinámicamente la experiencia desde JSON.
+ */
+async function loadExperiencia() {
+    if (experienciaLoaded) return;
+    const listPane = document.getElementById('exp-list');
+    if (!listPane) return;
+
+    try {
+        const resp = await fetch('data/experiencia.json');
+        if (!resp.ok) throw new Error('No se pudo cargar experiencia.json');
+        const expData = await resp.json();
+
+        listPane.innerHTML = '';
+        expData.forEach((item) => {
+            const btn = document.createElement('button');
+            btn.className = 'submenu-item';
+            btn.setAttribute('data-description', item.descripcion);
+            btn.innerHTML = `<span class="sub-arrow">▶</span> ${item.titulo}`;
+            listPane.appendChild(btn);
+        });
+        experienciaLoaded = true;
+    } catch (error) {
+        console.error('Error cargando experiencia:', error);
+        listPane.innerHTML = '<p>Error al cargar experiencia.</p>';
+    }
 }
 
 // PROYECTOS - Carga dinámica desde /proyectos/

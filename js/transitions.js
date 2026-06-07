@@ -61,7 +61,9 @@ function startTransition() {
         currentView = 'menu';
         navButtons.forEach(btn => btn.classList.add('menu-reveal'));
         if (typeof updateMainMenuVisuals === 'function') updateMainMenuVisuals();
+        if (typeof loadPerfil === 'function') loadPerfil();
         if (typeof loadProyectos === 'function') loadProyectos();
+        if (typeof loadExperiencia === 'function') loadExperiencia();
     }, 1700);
 }
 

@@ -115,6 +115,19 @@
                             <span class="btn-bg bg-coral"></span>
                             <span class="btn-text">EXPERIENCIA</span>
                         </button>
+                        <!-- NUEVOS BOTONES DIRECTOS -->
+                        <button class="nav-btn direct-action" data-action="link" data-url="https://linkedin.com/in/tu-perfil" data-index="3">
+                            <span class="btn-bg bg-yellow"></span>
+                            <span class="btn-text">LINKEDIN</span>
+                        </button>
+                        <button class="nav-btn direct-action" data-action="mailto" data-email="tu-correo@gmail.com" data-index="4">
+                            <span class="btn-bg bg-cyan"></span>
+                            <span class="btn-text">CORREO</span>
+                        </button>
+                        <button class="nav-btn direct-action" data-action="download" data-file="cv.pdf" data-index="5">
+                            <span class="btn-bg bg-coral"></span>
+                            <span class="btn-text">CV (PDF)</span>
+                        </button>
                     </nav>
                 </header>
                 <div class="menu-instructions">
@@ -147,26 +160,21 @@
                     <!-- Lista PERFIL -->
                     <div id="perfil" class="content-section">
                         <div class="list-pane" id="perfil-list">
-                            <button class="submenu-item" data-description="Quién soy, de dónde vengo y hacia dónde voy en el mundo de la ingeniería."><span class="sub-arrow">▶</span> Sobre Mí</button>
-                            <button class="submenu-item" data-description="Competencias técnicas fundamentales: programación, electrónica, control y automatización."><span class="sub-arrow">▶</span> Habilidades Core</button>
-                            <button class="submenu-item" data-description="Experiencia con ROS2, Nav2, MoveIt2, Gazebo y desarrollo de nodos en C++ y Python."><span class="sub-arrow">▶</span> ROS2 / Robótica</button>
-                            <button class="submenu-item" data-description="Desarrollo en C y C++ para sistemas embebidos, drivers y aplicaciones de tiempo real."><span class="sub-arrow">▶</span> C/C++</button>
-                            <button class="submenu-item" data-description="Microcontroladores STM32, ESP32, Arduino. Protocolos SPI, I2C, UART, CAN."><span class="sub-arrow">▶</span> Sistemas Embebidos</button>
-                            <button class="submenu-item" data-description="Scripting, automatización, análisis de datos y desarrollo de herramientas con Python."><span class="sub-arrow">▶</span> Python</button>
+                            <p class="loading-text" style="color:white;text-align:center;margin-top:20px;">Cargando perfil...</p>
                         </div>
                     </div>
 
                     <!-- Lista PROYECTOS -->
                     <div id="proyectos" class="content-section">
                         <div class="list-pane" id="github-list">
-                            <p class="loading-text">Cargando proyectos...</p>
+                            <p class="loading-text" style="color:white;text-align:center;margin-top:20px;">Cargando proyectos...</p>
                         </div>
                     </div>
 
                     <!-- Lista EXPERIENCIA -->
                     <div id="experiencia" class="content-section">
                         <div class="list-pane" id="exp-list">
-                            <!-- Se inyecta desde JS -->
+                            <p class="loading-text" style="color:white;text-align:center;margin-top:20px;">Cargando experiencia...</p>
                         </div>
                     </div>
 

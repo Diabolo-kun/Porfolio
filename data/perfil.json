@@ -1,0 +1,18 @@
+[
+    {
+        "titulo": "Sobre Mí",
+        "descripcion": "Desarrollador apasionado por crear interfaces dinámicas y experiencias de usuario únicas."
+    },
+    {
+        "titulo": "Habilidades Técnicas",
+        "descripcion": "JavaScript Avanzado, HTML5/CSS3, Python, C++, ROS2 y diseño UI/UX."
+    },
+    {
+        "titulo": "Idiomas",
+        "descripcion": "Español (Nativo), Inglés (C1 Fluido)."
+    },
+    {
+        "titulo": "Intereses",
+        "descripcion": "Desarrollo de videojuegos, robótica, diseño Bauhaus y RPGs japoneses."
+    }
+]
