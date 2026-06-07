@@ -57,7 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const navBtns = document.querySelectorAll('.nav-btn');
             navBtns.forEach(btn => btn.classList.add('menu-reveal'));
             updateMainMenuVisuals();
-            fetchGitHubRepos();
+            loadProyectos();
         }, 1700);
     }
 
@@ -260,9 +260,15 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function renderSubmenuSelection(items) {
+        const descText = document.getElementById('item-description-text');
         items.forEach((item, i) => {
             if (i === subIndex) {
                 item.classList.add('hovered');
+                // Actualizar panel de descripción
+                if (descText) {
+                    const desc = item.getAttribute('data-description');
+                    descText.textContent = desc || '';
+                }
             } else {
                 item.classList.remove('hovered');
             }
@@ -364,10 +370,10 @@ document.addEventListener('DOMContentLoaded', () => {
        5. DATOS DE EXPERIENCIA Y GITHUB
        ========================================================================== */
     const expData = [
-        { id: 'exp1', title: "Ingeniero de Robótica", subtitle: "Empresa S.A. | 2023 - Presente", body: "<p>Desarrollo de brazos robóticos con ROS2.</p><ul><li>Control cinemático</li></ul>" },
-        { id: 'exp2', title: "Desarrollador Embebido", subtitle: "Tech Solutions | 2020 - 2023", body: "<p>Microcontroladores IoT (ESP32, STM32).</p><ul><li>Firmware en C/C++ y Rust</li></ul>" },
-        { id: 'edu1', title: "Grado en Ingeniería", subtitle: "Universidad Politécnica | 2016 - 2020", body: "<p>Especialización en Electrónica.</p><ul><li>Matrícula de Honor en Control</li></ul>" },
-        { id: 'contacto', title: "Datos de Contacto", subtitle: "¡Hablemos!", body: "<p>Email: tuemail@ejemplo.com</p><p>LinkedIn: /in/tu-perfil</p>" }
+        { id: 'exp1', title: "Ingeniero de Robótica", subtitle: "Empresa S.A. | 2023 - Presente", desc: "Desarrollo de brazos robóticos con ROS2, control cinemático y visión artificial." },
+        { id: 'exp2', title: "Desarrollador Embebido", subtitle: "Tech Solutions | 2020 - 2023", desc: "Microcontroladores IoT (ESP32, STM32). Firmware en C/C++ y Rust." },
+        { id: 'edu1', title: "Grado en Ingeniería", subtitle: "Universidad Politécnica | 2016 - 2020", desc: "Especialización en Electrónica. Matrícula de Honor en Control." },
+        { id: 'contacto', title: "Datos de Contacto", subtitle: "¡Hablemos!", desc: "Email, LinkedIn y otras vías para ponerte en contacto conmigo." }
     ];
 
     const expListPane = document.getElementById('exp-list');
@@ -377,56 +383,63 @@ document.addEventListener('DOMContentLoaded', () => {
         expData.forEach((item, idx) => {
             const btn = document.createElement('button');
             btn.className = 'submenu-item';
+            btn.setAttribute('data-description', item.desc);
             btn.innerHTML = `<span class="sub-arrow">▶</span> ${item.title}`;
-            
-            btn.addEventListener('mouseenter', () => {
-                if(currentView === 'submenu') {
-                    subIndex = idx;
-                    adjustWindow('mouse');
-                    applyWindowScroll();
-                    renderSubmenuSelection(getCurrentSubmenuItems());
-                }
-            });
-
-            btn.addEventListener('click', () => {
-                // Ahora no hay panel de detalles en la derecha
-                console.log("Seleccionado: " + item.title);
-            });
             expListPane.appendChild(btn);
         });
     }
 
-    // GITHUB
-    const GITHUB_USERNAME = 'octocat';
-    let reposLoaded = false;
+    // PROYECTOS - Carga dinámica desde /proyectos/
+    let proyectosLoaded = false;
 
-    async function fetchGitHubRepos() {
-        if (reposLoaded) return; 
+    async function loadProyectos() {
+        if (proyectosLoaded) return;
         const listPane = document.getElementById('github-list');
         if (!listPane) return;
 
-        // Comentamos la llamada real a Github temporalmente
-        /*
         try {
-            const response = await fetch(`https://api.github.com/users/${GITHUB_USERNAME}/repos?sort=updated&per_page=10`);
-            // ...
-        } catch (error) {
-            console.error(error);
-        }
-        */
+            // Cargar manifiesto
+            const manifestResp = await fetch('proyectos/manifest.json');
+            if (!manifestResp.ok) throw new Error('No se pudo cargar manifest.json');
+            const folders = await manifestResp.json();
 
-        // Generar muchos items de prueba
-        listPane.innerHTML = '';
-        for (let i = 1; i <= 30; i++) {
-            const btn = document.createElement('button');
-            btn.className = 'submenu-item';
-            btn.innerHTML = `<span class="sub-arrow">▶</span> Proyecto Dummy ${i}`;
-            
-            // No añadimos listener de click ni hover aquí porque 
-            // updateSubmenuVisuals() se encarga del hover/selección global de .submenu-item
-            listPane.appendChild(btn);
+            // Cargar cada proyecto
+            const proyectos = [];
+            for (const folder of folders) {
+                try {
+                    const resp = await fetch(`proyectos/${folder}/proyecto.json`);
+                    if (resp.ok) {
+                        const data = await resp.json();
+                        data._folder = folder;
+                        proyectos.push(data);
+                    }
+                } catch (e) {
+                    console.warn(`Error cargando proyecto ${folder}:`, e);
+                }
+            }
+
+            // Ordenar: por puntuación (desc), luego alfabéticamente
+            proyectos.sort((a, b) => {
+                if (b.puntuacion !== a.puntuacion) return b.puntuacion - a.puntuacion;
+                return a.titulo.localeCompare(b.titulo);
+            });
+
+            // Renderizar en la lista
+            listPane.innerHTML = '';
+            proyectos.forEach((proy) => {
+                const btn = document.createElement('button');
+                btn.className = 'submenu-item';
+                const tipoTag = proy.tipo ? `[${proy.tipo.toUpperCase()}] ` : '';
+                btn.setAttribute('data-description', tipoTag + proy.descripcion_corta);
+                btn.innerHTML = `<span class="sub-arrow">▶</span> ${proy.titulo}`;
+                listPane.appendChild(btn);
+            });
+
+            proyectosLoaded = true;
+        } catch (error) {
+            console.error('Error cargando proyectos:', error);
+            listPane.innerHTML = '<p>Error al cargar proyectos.</p>';
         }
-        reposLoaded = true;
     }
 
 });
