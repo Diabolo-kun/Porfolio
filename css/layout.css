@@ -1,0 +1,292 @@
+/**
+ * @file layout.css
+ * @brief Estilos estructurales del menú principal, fondo y sistema de partículas.
+ * @author Manuel Perez
+ */
+/* ==========================================================================
+   FASE 2: MAIN LAYOUT
+   ========================================================================== */
+#main-layout {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    background-color: transparent; 
+    color: var(--color-black);
+    overflow: hidden;
+    transform: translateX(-100vw);
+    z-index: 250; 
+    transition: background-color 0.6s ease;
+}
+
+#main-layout.slide-in {
+    animation: layoutSlideIn 0.8s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+}
+
+@keyframes layoutSlideIn {
+    from { transform: translateX(-100vw); }
+    to   { transform: translateX(0); }
+}
+
+.portrait-bg {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+    pointer-events: none;
+    transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.portrait-bg.slide-left-out,
+.particles-container.slide-left-out {
+    transform: translateX(-50vw);
+    opacity: 0;
+    transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.4s ease-out;
+}
+
+.portrait-img {
+    height: 100%;
+    width: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 10px 40px rgba(0,0,0,0.1));
+}
+
+.menu-layer {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: 5;
+    overflow: hidden;
+}
+
+.view-container {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    padding: 40px; display: flex; flex-direction: column;
+    transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.5s ease;
+}
+
+#main-menu-container.active { transform: translateX(0); opacity: 1; pointer-events: all; z-index: 2; }
+#main-menu-container.hidden-view { transform: translateX(-50px); opacity: 0; pointer-events: none; z-index: 0; }
+
+#main-menu-container { justify-content: center; align-items: flex-end; }
+
+.bauhaus-header { flex: 0 0 auto; margin-bottom: 20px; width: auto; }
+.main-nav { display: flex; flex-direction: column; align-items: flex-end; gap: 12px; }
+
+.nav-btn {
+    position: relative; background: none; border: none; cursor: pointer;
+    text-align: right; padding: 14px 30px; min-width: 350px; outline: none;
+    opacity: 0;
+    transform: translateX(60px);
+}
+
+.nav-btn.menu-reveal {
+    animation: menuItemReveal 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+.nav-btn.menu-reveal:nth-child(1) { animation-delay: 0.1s; }
+.nav-btn.menu-reveal:nth-child(2) { animation-delay: 0.25s; }
+.nav-btn.menu-reveal:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes menuItemReveal {
+    to { opacity: 1; transform: translateX(0); }
+}
+
+.nav-btn .btn-text {
+    position: relative;
+    font-family: var(--font-heading); font-size: 3.8rem; font-weight: 800;
+    color: var(--color-black);
+    text-transform: uppercase; z-index: 2;
+    transition: var(--transition-fast);
+    line-height: 0.95;
+    letter-spacing: -1px;
+    text-shadow: 2px 2px 0px rgba(45, 211, 187, 0.5);
+}
+
+.nav-btn .btn-bg {
+    position: absolute; top: 0; right: 0;
+    width: 0; height: 100%; z-index: 1;
+    transition: width 0.35s cubic-bezier(0.25, 1, 0.5, 1);
+    opacity: 0.6;
+    transform: skewX(-6deg);
+}
+.bg-yellow { background-color: var(--color-yellow); }
+.bg-cyan { background-color: rgba(255,255,255,0.6); }
+.bg-coral { background-color: var(--color-coral); }
+
+.nav-btn.active .btn-bg { width: 110%; opacity: 0.7; }
+.nav-btn.active .btn-text { color: var(--color-dark); padding-right: 10px; }
+
+.menu-instructions {
+    margin-top: 40px; font-weight: 600; color: rgba(0,0,0,0.4); font-size: 0.85rem; text-align: right;
+}
+.menu-instructions span {
+    display: inline-block; background-color: var(--color-black); color: var(--color-light);
+    padding: 2px 8px; border-radius: 4px; font-family: monospace;
+}
+.discrete-btn {
+    background: none; border: none; color: inherit; font-family: inherit; font-size: inherit; font-weight: inherit; cursor: pointer; padding: 0; outline: none; transition: color 0.2s ease;
+}
+.discrete-btn:hover {
+    color: var(--color-coral);
+}
+
+/* ==========================================================================
+   PARTÍCULAS DECORATIVAS
+   ========================================================================== */
+.particles-container {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: 0; 
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.particle-arrow-group {
+    position: absolute;
+    top: 8%; left: 38%;
+    display: flex;
+    align-items: center;
+    transform: scale(1.3);
+    animation: floatParticle 8s ease-in-out infinite;
+}
+
+.particle-arrow-body {
+    width: 250px; height: 50px;
+    background-color: rgba(255, 255, 255, 0.8);
+}
+
+.particle-arrow-head {
+    width: 0; height: 0;
+    border-top: 50px solid transparent;
+    border-bottom: 50px solid transparent;
+    border-left: 65px solid var(--color-coral);
+    margin-left: 10px;
+}
+
+.particle-dots {
+    position: absolute;
+    background-image: radial-gradient(var(--color-dark) 20%, transparent 20%);
+    background-size: 20px 20px;
+    opacity: 0.2;
+    transform: rotate(15deg);
+}
+
+.particle-dots.dots-right {
+    top: 38%; left: 32%;
+    width: 160px; height: 200px;
+    animation: floatParticle 10s ease-in-out infinite reverse;
+}
+
+.particle-dots.dots-left {
+    top: 60%; left: 5%;
+    width: 200px; height: 250px;
+    animation: floatParticle 15s ease-in-out infinite;
+}
+
+.particle-stripes {
+    position: absolute;
+    top: 25%; right: -10px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.particle-stripes span {
+    width: 120px; height: 8px;
+    background-color: var(--color-dark);
+}
+
+.particle-square {
+    position: absolute;
+    background-color: var(--color-light);
+}
+
+.particle-square.sq-1 {
+    top: 15%; right: 28%;
+    width: 60px; height: 60px;
+    opacity: 0.9;
+    animation: spinParticle 20s linear infinite;
+}
+
+.particle-square.sq-2 {
+    top: 45%; right: 35%;
+    width: 90px; height: 90px;
+    background-color: transparent;
+    border: 18px solid var(--color-yellow);
+    border-radius: 50%;
+    animation: floatParticle 7s ease-in-out infinite;
+}
+
+.particle-square.sq-3 {
+    top: 8%; right: 12%;
+    width: 40px; height: 40px;
+    opacity: 0.5;
+    animation: spinParticle 15s linear infinite reverse;
+}
+
+.particle-square.sq-4 {
+    top: 30%; left: 10%;
+    width: 50px; height: 50px;
+    background-color: var(--color-turquoise);
+    border: 5px solid var(--color-light);
+    opacity: 0.8;
+    animation: spinParticle 18s linear infinite;
+}
+
+.particle-circle.circle-left {
+    position: absolute;
+    top: 75%; left: 15%;
+    width: 100px; height: 100px;
+    background-color: transparent;
+    border: 15px solid var(--color-coral);
+    border-radius: 50%;
+    opacity: 0.6;
+    animation: floatParticle 9s ease-in-out infinite reverse;
+}
+
+.particle-cross.cross-left {
+    position: absolute;
+    top: 20%; left: 20%;
+    width: 80px; height: 80px;
+    opacity: 0.7;
+    animation: spinParticle 25s linear infinite;
+}
+.particle-cross.cross-left::before, .particle-cross.cross-left::after {
+    content: '';
+    position: absolute;
+    background-color: var(--color-yellow);
+}
+.particle-cross.cross-left::before {
+    top: 0; left: 30px; width: 20px; height: 80px;
+}
+.particle-cross.cross-left::after {
+    top: 30px; left: 0; width: 80px; height: 20px;
+}
+
+.particle-red-box {
+    position: absolute;
+    bottom: -40px; left: 55%;
+    width: 250px; height: 160px;
+    background-color: var(--color-coral);
+    background-image: radial-gradient(rgba(255, 255, 255, 0.7) 15%, transparent 15%);
+    background-size: 24px 24px;
+    transform: rotate(-5deg);
+}
+
+@keyframes floatParticle {
+    0%, 100% { transform: translateY(0) scale(0.9); }
+    50% { transform: translateY(-15px) scale(0.95); }
+}
+
+@keyframes spinParticle {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+@media (max-width: 900px) {
+    .nav-btn { min-width: 200px; }
+    .nav-btn .btn-text { font-size: 2.5rem; }
+}

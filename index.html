@@ -1,3 +1,8 @@
+<!--!
+ * @file index.html
+ * @brief Página principal del Portfolio Web interactivo.
+ * @author Manuel Perez
+ -->
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -8,7 +13,11 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;600;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/intro.css">
+    <link rel="stylesheet" href="css/layout.css">
+    <link rel="stylesheet" href="css/submenu.css">
 </head>
 <body>
     <div id="game-container">
@@ -180,6 +189,10 @@
     </main>
     </div>
 
-    <script src="script.js"></script>
+    <!-- Scripts Modulares -->
+    <script defer src="js/state.js"></script>
+    <script defer src="js/transitions.js"></script>
+    <script defer src="js/navigation.js"></script>
+    <script defer src="js/data.js"></script>
 </body>
 </html>

@@ -1,0 +1,30 @@
+/**
+ * @file base.css
+ * @brief Estilos base, reseteos del navegador y scrollbar.
+ * @author Manuel Perez
+ */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    font-family: var(--font-body);
+    background-color: var(--color-dark);
+    color: var(--color-light);
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden; 
+    touch-action: none; 
+}
+
+.hidden {
+    display: none !important;
+}
+
+.custom-scrollbar::-webkit-scrollbar { width: 4px; }
+.custom-scrollbar::-webkit-scrollbar-track { background: transparent; border: none; }
+.custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.2); border-radius: 4px; }
+.custom-scrollbar::-webkit-scrollbar-thumb:hover { background: rgba(0, 255, 209, 0.5); }
