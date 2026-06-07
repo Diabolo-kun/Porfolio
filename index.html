@@ -115,85 +115,63 @@
                     </p>
                 </div>
             </div>
+        </section>
 
-            <!-- CONTENEDOR DE SUBMENÚS (Se pone "encima" ocultando el principal) -->
-            <div id="submenu-container" class="view-container hidden">
-                
-                <button id="back-btn" class="back-button">
-                    <span class="back-icon">◀</span> VOLVER [ESC]
-                </button>
+        <!-- CONTENEDOR DE SUBMENÚS (Pantalla dividida 50/50) -->
+        <section id="submenu-container" class="view-container hidden">
+            
+            <!-- Botón Volver -->
+            <button id="back-btn" class="back-button">
+                <span class="back-icon">◀</span> VOLVER [ESC]
+            </button>
 
-                <div class="content-area">
+            <!-- Mitad Izquierda (Listas) -->
+            <div class="submenu-left">
+                <!-- Título rojo superior -->
+                <div class="submenu-header">
+                    <span id="submenu-title-text">WHICH ITEM?</span>
+                </div>
+
+                <!-- Contenedor de las listas -->
+                <div class="submenu-list-container custom-scrollbar">
                     
-                    <!-- SECCIÓN PERFIL -->
-                    <article id="perfil" class="content-section">
-                        <div class="section-header">
-                            <h2>01.</h2>
-                            <h3>INGENIERO & DESARROLLADOR</h3>
+                    <!-- Lista PERFIL -->
+                    <div id="perfil" class="content-section">
+                        <div class="list-pane" id="perfil-list">
+                            <button class="submenu-item"><span class="sub-arrow">▶</span> Sobre Mí</button>
+                            <button class="submenu-item"><span class="sub-arrow">▶</span> Habilidades Core</button>
+                            <button class="submenu-item"><span class="sub-arrow">▶</span> ROS2 / Robótica</button>
+                            <button class="submenu-item"><span class="sub-arrow">▶</span> C/C++</button>
+                            <button class="submenu-item"><span class="sub-arrow">▶</span> Sistemas Embebidos</button>
+                            <button class="submenu-item"><span class="sub-arrow">▶</span> Python</button>
                         </div>
-                        <div class="scrollable-content custom-scrollbar">
-                            <div class="text-block">
-                                <p class="highlight-text">
-                                    Desarrollador e Ingeniero enfocado en Informática, Electrónica y Robótica. Especializado en el diseño de sistemas embebidos, control automatizado y programación de software ágil.
-                                </p>
-                                
-                                <div class="tech-stack">
-                                    <h4>TECNOLOGÍAS CLAVE</h4>
-                                    <div class="tags-container">
-                                        <span class="tech-tag">ROS2</span>
-                                        <span class="tech-tag">C/C++</span>
-                                        <span class="tech-tag">Rust</span>
-                                        <span class="tech-tag">Python</span>
-                                        <span class="tech-tag">ESP32</span>
-                                        <span class="tech-tag">Arduino</span>
-                                        <span class="tech-tag">Raspberry Pi</span>
-                                        <span class="tech-tag">PID</span>
-                                        <span class="tech-tag">Matlab/Simulink</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </article>
+                    </div>
 
-                    <!-- SECCIÓN PROYECTOS -->
-                    <article id="proyectos" class="content-section">
-                        <div class="section-header">
-                            <h2>02.</h2>
-                            <h3>PROYECTOS DESTACADOS</h3>
+                    <!-- Lista PROYECTOS -->
+                    <div id="proyectos" class="content-section">
+                        <div class="list-pane" id="github-list">
+                            <p class="loading-text">Cargando repositorios...</p>
                         </div>
-                        <div class="split-view">
-                            <div class="list-pane custom-scrollbar" id="github-list">
-                                <p class="loading-text">Cargando repositorios...</p>
-                            </div>
-                            <div class="detail-pane custom-scrollbar" id="github-details">
-                                <div class="empty-state">
-                                    <span class="empty-icon">▨</span>
-                                    <p>SELECCIONA UN PROYECTO</p>
-                                </div>
-                            </div>
-                        </div>
-                    </article>
+                    </div>
 
-                    <!-- SECCIÓN EXPERIENCIA -->
-                    <article id="experiencia" class="content-section">
-                        <div class="section-header">
-                            <h2>03.</h2>
-                            <h3>TRAYECTORIA & CONTACTO</h3>
+                    <!-- Lista EXPERIENCIA -->
+                    <div id="experiencia" class="content-section">
+                        <div class="list-pane" id="exp-list">
+                            <!-- Se inyecta desde JS -->
                         </div>
-                        <div class="split-view">
-                            <div class="list-pane custom-scrollbar" id="exp-list">
-                                <!-- Se inyecta desde JS -->
-                            </div>
-                            <div class="detail-pane custom-scrollbar" id="exp-details">
-                                <!-- Se inyecta desde JS -->
-                            </div>
-                        </div>
-                    </article>
+                    </div>
 
                 </div>
             </div>
 
+            <!-- Mitad Derecha (Silueta) -->
+            <div class="submenu-right">
+                <div class="silhouette-placeholder">
+                    <span>(Espacio para Silueta)</span>
+                </div>
+            </div>
         </section>
+
     </main>
     </div>
 
