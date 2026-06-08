@@ -1,0 +1,15 @@
+{
+    "titulo": "Mu RTOS Custom",
+    "descripcion_corta": "Sistema operativo de tiempo real (RTOS) minimalista diseñado para ARM Cortex-M.",
+    "descripcion_detallada": "English translation of: Desarrollo desde cero de un RTOS preemptivo con semáforos, colas de mensajes y gestión de memoria dinámica.",
+    "puntuacion": 9,
+    "url": "https://example.com/mu",
+    "tecnologias": [
+        "C",
+        "ARM Assembly"
+    ],
+    "tipo": "personal",
+    "fecha": "2023-06",
+    "estado": "completed",
+    "rol": "Desarrollador Único"
+}

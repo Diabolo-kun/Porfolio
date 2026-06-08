@@ -1,0 +1,18 @@
+[
+    {
+        "titulo": "Robotics Engineer",
+        "descripcion": "Empresa S.A. | 2023 - Present. Development of robotic arms with ROS2, kinematic control and artificial vision."
+    },
+    {
+        "titulo": "Embedded Developer",
+        "descripcion": "Tech Solutions | 2020 - 2023. IoT Microcontrollers (ESP32, STM32). Firmware in C/C++ and Rust."
+    },
+    {
+        "titulo": "Engineering Degree",
+        "descripcion": "Polytechnic University | 2016 - 2020. Specialization in Electronics. Honors in Control."
+    },
+    {
+        "titulo": "Contact Info",
+        "descripcion": "Let's talk! Email, LinkedIn and other ways to get in touch with me."
+    }
+]

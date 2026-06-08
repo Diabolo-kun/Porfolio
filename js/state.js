@@ -7,6 +7,9 @@
 /** @var {string} currentView Vista actual de la aplicación ('intro', 'menu', 'submenu') */
 let currentView = 'intro';
 
+/** @var {string} currentLang Idioma actual de la aplicación ('es' o 'en') */
+let currentLang = 'es';
+
 /** @var {number} mainIndex Índice del elemento seleccionado en el menú principal */
 let mainIndex = 0;
 

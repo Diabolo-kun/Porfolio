@@ -1,0 +1,17 @@
+{
+    "titulo": "Iota Gesture Control",
+    "descripcion_corta": "Control gestual de interfaces con MediaPipe y reconocimiento de manos en tiempo real.",
+    "descripcion_detallada": "English translation of: Interfaz de control sin contacto para entornos industriales usando cámaras estéreo.",
+    "puntuacion": 7,
+    "url": "https://example.com/iota",
+    "tecnologias": [
+        "Python",
+        "MediaPipe",
+        "OpenCV",
+        "TensorFlow"
+    ],
+    "tipo": "academic",
+    "fecha": "2024-01",
+    "estado": "completed",
+    "rol": "Colaborador"
+}

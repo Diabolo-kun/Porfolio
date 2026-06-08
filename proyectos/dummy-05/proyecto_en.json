@@ -1,0 +1,17 @@
+{
+    "titulo": "Epsilon Home Automation",
+    "descripcion_corta": "Sistema domótico centralizado con control por voz y automatización por horarios.",
+    "descripcion_detallada": "English translation of: Plataforma de domótica basada en Raspberry Pi con integración Zigbee y WiFi.",
+    "puntuacion": 7,
+    "url": "https://example.com/epsilon",
+    "tecnologias": [
+        "Python",
+        "Zigbee",
+        "MQTT",
+        "Raspberry Pi"
+    ],
+    "tipo": "personal",
+    "fecha": "2024-02",
+    "estado": "completed",
+    "rol": "Desarrollador Único"
+}

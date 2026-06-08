@@ -1,0 +1,17 @@
+{
+    "titulo": "Theta SLAM Navigator",
+    "descripcion_corta": "Navegación autónoma con SLAM 2D/3D para robots móviles en interiores.",
+    "descripcion_detallada": "English translation of: Implementación de Cartographer y Nav2 con LIDAR RPLidar A3 y odometría de ruedas.",
+    "puntuacion": 8,
+    "url": "https://example.com/theta",
+    "tecnologias": [
+        "ROS2",
+        "C++",
+        "Nav2",
+        "Cartographer"
+    ],
+    "tipo": "professional",
+    "fecha": "2024-07",
+    "estado": "completed",
+    "rol": "Desarrollador Principal"
+}

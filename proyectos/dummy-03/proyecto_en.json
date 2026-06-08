@@ -1,0 +1,17 @@
+{
+    "titulo": "Gamma Drone Firmware",
+    "descripcion_corta": "Firmware de vuelo para dron cuadrirotor con estabilización IMU y GPS.",
+    "descripcion_detallada": "English translation of: Controlador de vuelo bare-metal para STM32H7 con fusión sensorial Kalman.",
+    "puntuacion": 9,
+    "url": "https://example.com/gamma",
+    "tecnologias": [
+        "C",
+        "STM32",
+        "IMU",
+        "GPS"
+    ],
+    "tipo": "personal",
+    "fecha": "2024-08",
+    "estado": "completed",
+    "rol": "Desarrollador Único"
+}

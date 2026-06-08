@@ -1,0 +1,16 @@
+{
+    "titulo": "Omicron AI Assistant",
+    "descripcion_corta": "Asistente de voz offline para entornos industriales con ruido extremo.",
+    "descripcion_detallada": "English translation of: Procesamiento de lenguaje natural y cancelación de ruido activa implementada en edge computing (Jetson Nano).",
+    "puntuacion": 9,
+    "url": "https://example.com/omicron",
+    "tecnologias": [
+        "Python",
+        "TensorFlow",
+        "C++"
+    ],
+    "tipo": "personal",
+    "fecha": "2022-11",
+    "estado": "completed",
+    "rol": "Desarrollador Único"
+}

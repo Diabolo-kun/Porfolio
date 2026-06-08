@@ -1,0 +1,17 @@
+{
+    "titulo": "Eta Power Monitor",
+    "descripcion_corta": "Monitor de consumo eléctrico con medición no intrusiva y dashboard web.",
+    "descripcion_detallada": "English translation of: Sistema de monitorización energética basado en sensores de corriente SCT-013.",
+    "puntuacion": 6,
+    "url": "https://example.com/eta",
+    "tecnologias": [
+        "ESP32",
+        "C++",
+        "Grafana",
+        "InfluxDB"
+    ],
+    "tipo": "academic",
+    "fecha": "2023-09",
+    "estado": "completed",
+    "rol": "Desarrollador Principal"
+}

@@ -1,0 +1,16 @@
+{
+    "titulo": "Alpha Control System",
+    "descripcion_corta": "Control system PID adaptativo for plants industriales con interfaz SCADA.",
+    "descripcion_detallada": "English translation of: Implementación completa de un controlador PID adaptativo con auto-tuning basado en Ziegler-Nichols modificado.",
+    "puntuacion": 10,
+    "url": "https://example.com/alpha",
+    "tecnologias": [
+        "C++",
+        "MATLAB",
+        "SCADA"
+    ],
+    "tipo": "professional",
+    "fecha": "2025-01",
+    "estado": "completed",
+    "rol": "Lead Developer"
+}

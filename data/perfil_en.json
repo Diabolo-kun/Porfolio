@@ -1,0 +1,18 @@
+[
+    {
+        "titulo": "About Me",
+        "descripcion": "Developer passionate about creating dynamic interfaces and unique user experiences."
+    },
+    {
+        "titulo": "Technical Skills",
+        "descripcion": "Advanced JavaScript, HTML5/CSS3, Python, C++, ROS2 and UI/UX design."
+    },
+    {
+        "titulo": "Languages",
+        "descripcion": "Spanish (Native), English (C1 Fluent)."
+    },
+    {
+        "titulo": "Interests",
+        "descripcion": "Game development, robotics, Bauhaus design and Japanese RPGs."
+    }
+]

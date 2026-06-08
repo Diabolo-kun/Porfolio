@@ -1,0 +1,16 @@
+{
+    "titulo": "Xi Smart Grid Emulator",
+    "descripcion_corta": "Simulador HIL (Hardware-in-the-Loop) para redes eléctricas inteligentes.",
+    "descripcion_detallada": "English translation of: Plataforma de pruebas para algoritmos de respuesta a la demanda y balanceo de carga en microrredes.",
+    "puntuacion": 8,
+    "url": "https://example.com/xi",
+    "tecnologias": [
+        "Simulink",
+        "C++",
+        "EtherCAT"
+    ],
+    "tipo": "academic",
+    "fecha": "2023-02",
+    "estado": "completed",
+    "rol": "Colaborador"
+}

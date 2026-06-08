@@ -1,0 +1,17 @@
+{
+    "titulo": "Lambda Predictive Maintenance",
+    "descripcion_corta": "Sistema de mantenimiento predictivo basado en vibraciones y Machine Learning.",
+    "descripcion_detallada": "English translation of: Análisis FFT de firmas de vibración en motores industriales usando Random Forest para predicción de fallos.",
+    "puntuacion": 8,
+    "url": "https://example.com/lambda",
+    "tecnologias": [
+        "Python",
+        "Scikit-Learn",
+        "IoT",
+        "C"
+    ],
+    "tipo": "academic",
+    "fecha": "2023-10",
+    "estado": "completed",
+    "rol": "Colaborador"
+}

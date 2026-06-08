@@ -83,7 +83,16 @@ function openSubmenu() {
     const targetSection = document.getElementById(targetId);
     if (targetSection) targetSection.classList.add('active');
 
-    if(submenuTitleText) submenuTitleText.textContent = targetId;
+    if(submenuTitleText) {
+        const btnTextEl = navButtons[mainIndex].querySelector('.btn-text');
+        if (btnTextEl && btnTextEl.hasAttribute('data-i18n')) {
+            const i18nKey = btnTextEl.getAttribute('data-i18n');
+            submenuTitleText.setAttribute('data-i18n', i18nKey);
+            submenuTitleText.textContent = typeof translations !== 'undefined' ? translations[currentLang][i18nKey] : targetId.toUpperCase();
+        } else {
+            submenuTitleText.textContent = targetId.toUpperCase();
+        }
+    }
 
     subIndex = 0;
     windowTop = 0;

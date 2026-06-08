@@ -18,9 +18,29 @@
     <link rel="stylesheet" href="css/intro.css">
     <link rel="stylesheet" href="css/layout.css">
     <link rel="stylesheet" href="css/submenu.css">
+    <style>
+        #lang-toggle-container {
+            position: absolute; top: 20px; right: 20px; z-index: 1000; 
+            font-family: var(--font-heading); font-weight: 700; color: white;
+            text-shadow: 0px 2px 4px rgba(0,0,0,0.5);
+        }
+        .lang-btn {
+            background: none; border: none; color: inherit; cursor: pointer; 
+            font-size: 1.2rem; opacity: 0.5; transition: all 0.3s ease;
+        }
+        .lang-btn.active { opacity: 1; color: var(--color-yellow); }
+        .lang-btn:hover { opacity: 0.8; }
+    </style>
 </head>
 <body>
     <div id="game-container">
+
+    <!-- SELECTOR DE IDIOMA GLOBAL -->
+    <div id="lang-toggle-container">
+        <button class="lang-btn active" data-lang="es">ES</button>
+        <span style="opacity: 0.5; margin: 0 5px;">|</span>
+        <button class="lang-btn" data-lang="en">EN</button>
+    </div>
 
     <!-- FASE DE INTRO -->
     <section id="intro" class="intro-screen">
@@ -38,7 +58,7 @@
                 </div>
             </div>
         </div>
-        <button id="start-btn" class="start-button">START</button>
+        <button id="start-btn" class="start-button" data-i18n="start">START</button>
         <div class="intro-bg-elements">
             <div class="intro-line intro-line-1"></div>
             <div class="intro-line intro-line-2"></div>
@@ -105,35 +125,35 @@
                     <nav class="main-nav" id="main-nav">
                         <button class="nav-btn" data-target="perfil" data-index="0">
                             <span class="btn-bg bg-yellow"></span>
-                            <span class="btn-text">PERFIL</span>
+                            <span class="btn-text" data-i18n="menu_profile">PERFIL</span>
                         </button>
                         <button class="nav-btn" data-target="proyectos" data-index="1">
                             <span class="btn-bg bg-cyan"></span>
-                            <span class="btn-text">PROYECTOS</span>
+                            <span class="btn-text" data-i18n="menu_projects">PROYECTOS</span>
                         </button>
                         <button class="nav-btn" data-target="experiencia" data-index="2">
                             <span class="btn-bg bg-coral"></span>
-                            <span class="btn-text">EXPERIENCIA</span>
+                            <span class="btn-text" data-i18n="menu_experience">EXPERIENCIA</span>
                         </button>
                         <!-- NUEVOS BOTONES DIRECTOS -->
                         <button class="nav-btn direct-action" data-action="link" data-url="https://linkedin.com/in/tu-perfil" data-index="3">
                             <span class="btn-bg bg-yellow"></span>
-                            <span class="btn-text">LINKEDIN</span>
+                            <span class="btn-text" data-i18n="menu_linkedin">LINKEDIN</span>
                         </button>
                         <button class="nav-btn direct-action" data-action="mailto" data-email="tu-correo@gmail.com" data-index="4">
                             <span class="btn-bg bg-cyan"></span>
-                            <span class="btn-text">CORREO</span>
+                            <span class="btn-text" data-i18n="menu_email">EMAIL</span>
                         </button>
                         <button class="nav-btn direct-action" data-action="download" data-file="cv.pdf" data-index="5">
                             <span class="btn-bg bg-coral"></span>
-                            <span class="btn-text">CV (PDF)</span>
+                            <span class="btn-text" data-i18n="menu_cv">CV (PDF)</span>
                         </button>
                     </nav>
                 </header>
                 <div class="menu-instructions">
-                    <p>Usa <span>↑</span> <span>↓</span> para navegar | <span>ENTER</span> para seleccionar</p>
+                    <p data-i18n="inst_nav">Usa <span>↑</span> <span>↓</span> para navegar | <span>ENTER</span> para seleccionar</p>
                     <p style="margin-top: 10px;">
-                        <button id="back-to-intro-btn" class="discrete-btn"><span>ESC</span> para volver al inicio</button>
+                        <button id="back-to-intro-btn" class="discrete-btn" data-i18n="inst_esc"><span>ESC</span> para volver al inicio</button>
                     </p>
                 </div>
             </div>
@@ -143,7 +163,7 @@
         <section id="submenu-container" class="view-container hidden">
             
             <!-- Botón Volver -->
-            <button id="back-btn" class="back-button">
+            <button id="back-btn" class="back-button" data-i18n="btn_back">
                 <span class="back-icon">◀</span> VOLVER [ESC]
             </button>
 
@@ -160,21 +180,21 @@
                     <!-- Lista PERFIL -->
                     <div id="perfil" class="content-section">
                         <div class="list-pane" id="perfil-list">
-                            <p class="loading-text" style="color:white;text-align:center;margin-top:20px;">Cargando perfil...</p>
+                            <p class="loading-text" data-i18n="load_profile" style="color:white;text-align:center;margin-top:20px;">Cargando perfil...</p>
                         </div>
                     </div>
 
                     <!-- Lista PROYECTOS -->
                     <div id="proyectos" class="content-section">
                         <div class="list-pane" id="github-list">
-                            <p class="loading-text" style="color:white;text-align:center;margin-top:20px;">Cargando proyectos...</p>
+                            <p class="loading-text" data-i18n="load_projects" style="color:white;text-align:center;margin-top:20px;">Cargando proyectos...</p>
                         </div>
                     </div>
 
                     <!-- Lista EXPERIENCIA -->
                     <div id="experiencia" class="content-section">
                         <div class="list-pane" id="exp-list">
-                            <p class="loading-text" style="color:white;text-align:center;margin-top:20px;">Cargando experiencia...</p>
+                            <p class="loading-text" data-i18n="load_experience" style="color:white;text-align:center;margin-top:20px;">Cargando experiencia...</p>
                         </div>
                     </div>
 
@@ -182,7 +202,7 @@
 
                 <!-- Panel de descripción del ítem seleccionado (estilo P5) -->
                 <div class="item-description" id="item-description">
-                    <p id="item-description-text">Selecciona un elemento para ver su descripción.</p>
+                    <p id="item-description-text" data-i18n="desc_placeholder">Selecciona un elemento para ver su descripción.</p>
                 </div>
             </div>
 
@@ -199,6 +219,7 @@
 
     <!-- Scripts Modulares -->
     <script defer src="js/state.js"></script>
+    <script defer src="js/i18n.js"></script>
     <script defer src="js/transitions.js"></script>
     <script defer src="js/navigation.js"></script>
     <script defer src="js/data.js"></script>

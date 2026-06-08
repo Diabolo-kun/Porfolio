@@ -1,0 +1,17 @@
+{
+    "titulo": "Delta CAN Bus Analyzer",
+    "descripcion_corta": "Herramienta de análisis y diagnóstico de redes CAN bus para automoción.",
+    "descripcion_detallada": "English translation of: Sniffer y analizador de tramas CAN con decodificación DBC y visualización en tiempo real.",
+    "puntuacion": 8,
+    "url": "https://example.com/delta",
+    "tecnologias": [
+        "C++",
+        "Qt",
+        "CAN bus",
+        "DBC"
+    ],
+    "tipo": "professional",
+    "fecha": "2024-05",
+    "estado": "completed",
+    "rol": "Colaborador"
+}

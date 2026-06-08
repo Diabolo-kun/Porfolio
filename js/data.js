@@ -16,8 +16,8 @@ async function loadPerfil() {
     if (!listPane) return;
 
     try {
-        const resp = await fetch('data/perfil.json');
-        if (!resp.ok) throw new Error('No se pudo cargar perfil.json');
+        const resp = await fetch(`data/perfil_${currentLang}.json`);
+        if (!resp.ok) throw new Error(`No se pudo cargar perfil_${currentLang}.json`);
         const perfilData = await resp.json();
 
         listPane.innerHTML = '';
@@ -47,8 +47,8 @@ async function loadExperiencia() {
     if (!listPane) return;
 
     try {
-        const resp = await fetch('data/experiencia.json');
-        if (!resp.ok) throw new Error('No se pudo cargar experiencia.json');
+        const resp = await fetch(`data/experiencia_${currentLang}.json`);
+        if (!resp.ok) throw new Error(`No se pudo cargar experiencia_${currentLang}.json`);
         const expData = await resp.json();
 
         listPane.innerHTML = '';
@@ -91,7 +91,7 @@ async function loadProyectos() {
         const proyectos = [];
         for (const folder of folders) {
             try {
-                const resp = await fetch(`proyectos/${folder}/proyecto.json`);
+                const resp = await fetch(`proyectos/${folder}/proyecto_${currentLang}.json`);
                 if (resp.ok) {
                     const data = await resp.json();
                     data._folder = folder;

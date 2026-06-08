@@ -14,6 +14,7 @@
     background: var(--color-black); color: var(--color-light);
     border: none; padding: 10px 20px; cursor: pointer;
     transition: var(--transition-fast); text-transform: uppercase; outline: none;
+    width: 250px; min-width: 250px; text-align: center; white-space: nowrap;
 }
 .back-button:hover { background: var(--color-coral); transform: translateX(-5px); }
 
@@ -75,6 +76,22 @@
     padding: 10px 40px;
     margin-bottom: 40px;
     box-shadow: 4px 4px 0px var(--color-black);
+    width: 100%;
+    max-width: 700px;
+    text-align: center;
+    white-space: nowrap;
+    position: relative;
+}
+
+.submenu-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: calc(100% - 4px);
+    width: 100vw;
+    height: 100%;
+    background-color: var(--color-coral);
+    box-shadow: 0px 4px 0px var(--color-black);
 }
 
 #submenu-title-text {
