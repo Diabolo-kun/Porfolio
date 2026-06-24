@@ -11,7 +11,7 @@ const translations = {
         "menu_projects": "PROYECTOS",
         "menu_experience": "EXPERIENCIA",
         "menu_linkedin": "LINKEDIN",
-        "menu_email": "EMAIL", // Cambiado de CORREO a EMAIL como pidió el usuario
+        "menu_email": "EMAIL",
         "menu_cv": "CV (PDF)",
         "inst_nav": "Usa <span>↑</span> <span>↓</span> para navegar | <span>ENTER</span> para seleccionar",
         "inst_esc": "<span>ESC</span> para volver al inicio",
@@ -20,7 +20,8 @@ const translations = {
         "load_profile": "Cargando perfil...",
         "load_projects": "Cargando proyectos...",
         "load_experience": "Cargando experiencia...",
-        "desc_placeholder": "Selecciona un elemento para ver su descripción."
+        "desc_placeholder": "Selecciona un elemento para ver su descripción.",
+        "msg_copied": "¡COPIADO!"
     },
     en: {
         "start": "START",
@@ -37,7 +38,8 @@ const translations = {
         "load_profile": "Loading profile...",
         "load_projects": "Loading projects...",
         "load_experience": "Loading experience...",
-        "desc_placeholder": "Select an item to see its description."
+        "desc_placeholder": "Select an item to see its description.",
+        "msg_copied": "COPIED!"
     }
 };
 
@@ -56,7 +58,7 @@ function updateStaticTranslations(lang) {
 
     // Actualizar botones de toggle
     document.querySelectorAll('.lang-btn').forEach(btn => {
-        if(btn.getAttribute('data-lang') === lang) {
+        if (btn.getAttribute('data-lang') === lang) {
             btn.classList.add('active');
         } else {
             btn.classList.remove('active');
@@ -75,11 +77,11 @@ document.addEventListener('DOMContentLoaded', () => {
             if (lang !== currentLang) {
                 currentLang = lang;
                 updateStaticTranslations(currentLang);
-                
+
                 // Recargar datos dinámicos si ya estaban cargados
-                if(perfilLoaded) { perfilLoaded = false; loadPerfil(); }
-                if(experienciaLoaded) { experienciaLoaded = false; loadExperiencia(); }
-                if(proyectosLoaded) { proyectosLoaded = false; loadProyectos(); }
+                if (perfilLoaded) { perfilLoaded = false; loadPerfil(); }
+                if (experienciaLoaded) { experienciaLoaded = false; loadExperiencia(); }
+                if (proyectosLoaded) { proyectosLoaded = false; loadProyectos(); }
             }
         });
     });

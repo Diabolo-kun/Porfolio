@@ -56,7 +56,6 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: rgba(0, 0, 0, 0.1);
 }
 
 .silhouette-placeholder {
@@ -287,4 +286,45 @@
     line-height: 1.6;
     color: rgba(255, 255, 255, 0.9);
     white-space: pre-wrap;
+}
+
+/* ==========================================================================
+   SILUETA DINAMICA / AVATAR
+   ========================================================================== */
+.avatar-container {
+    position: absolute;
+    bottom: 2vh; /* Bajado un poco */
+    right: 15%;   
+    width: 35vw; 
+    height: 80vh;
+    pointer-events: none;
+    z-index: 100; 
+    transform: scale(1.45); 
+    transform-origin: bottom right; 
+}
+
+.avatar-torso {
+    position: absolute;
+    z-index: 1;
+    height: 50vh; /* Ajustamos la altura del torso como base */
+    bottom: 0;
+    right: 10%;
+}
+
+.avatar-head {
+    position: absolute;
+    z-index: 2; 
+    height: 16vh; 
+    bottom: 44vh; /* Ajuste fino hacia abajo */
+    right: 7%; 
+}
+
+.avatar-arm {
+    position: absolute;
+    z-index: 3; 
+    height: 21vh; 
+    bottom: 30vh; /* Bajado para reconectarlo al hombro */
+    right: 9%;    /* Movido a la izquierda para compensar el cambio de pivote */
+    /* Punto de pivote: movido más arriba y a la derecha (según la marca naranja) */
+    transform-origin: 88% 12%; 
 }

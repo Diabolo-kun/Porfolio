@@ -43,7 +43,19 @@ navButtons.forEach((btn, index) => {
             if (btn.classList.contains('direct-action')) {
                 const action = btn.getAttribute('data-action');
                 if (action === 'link') window.open(btn.getAttribute('data-url'), '_blank');
-                else if (action === 'mailto') window.location.href = `mailto:${btn.getAttribute('data-email')}`;
+                else if (action === 'copy') {
+                    const textToCopy = btn.getAttribute('data-email');
+                    navigator.clipboard.writeText(textToCopy).then(() => {
+                        const textSpan = btn.querySelector('.btn-text');
+                        const originalText = textSpan.textContent;
+                        textSpan.textContent = translations[currentLang]['msg_copied'];
+                        setTimeout(() => {
+                            textSpan.textContent = originalText;
+                        }, 2000);
+                    }).catch(err => {
+                        console.error('Error al copiar: ', err);
+                    });
+                }
                 else if (action === 'download') {
                     const a = document.createElement('a');
                     a.href = btn.getAttribute('data-file');
@@ -70,7 +82,8 @@ function openSubmenu() {
     mainMenuContainer.classList.add('hidden-view');
     
     if(portraitBg) portraitBg.classList.add('slide-left-out');
-    if(particlesContainer) particlesContainer.classList.add('slide-left-out');
+    // Mantenemos las partículas de fondo visibles
+    // if(particlesContainer) particlesContainer.classList.add('slide-left-out');
 
     document.getElementById('main-layout').style.backgroundColor = '#188A78';
 
@@ -117,7 +130,7 @@ function closeSubmenu() {
     if (descOverlay) descOverlay.classList.remove('active');
     
     if(portraitBg) portraitBg.classList.remove('slide-left-out');
-    if(particlesContainer) particlesContainer.classList.remove('slide-left-out');
+    // if(particlesContainer) particlesContainer.classList.remove('slide-left-out');
 
     document.getElementById('main-layout').style.backgroundColor = 'var(--color-turquoise)';
 
@@ -189,6 +202,8 @@ function applyWindowScroll() {
     if (!activeListPane) return;
     activeListPane.style.transform = `translateY(-${windowTop * ITEM_HEIGHT}px)`;
     activeListPane.style.transition = 'transform 0.15s ease-out';
+    
+    updateAvatarPointing(subIndex, windowTop);
 }
 
 /**
@@ -268,6 +283,8 @@ function renderSubmenuSelection(items) {
             item.classList.remove('hovered');
         }
     });
+
+    updateAvatarPointing(subIndex, windowTop);
 }
 
 /**
@@ -371,3 +388,96 @@ document.addEventListener('wheel', (e) => {
         updateSubmenuVisuals('wheel');
     }
 }, { passive: false });
+
+/**
+ * Función auxiliar para obtener la rotación visual actual del elemento en grados.
+ */
+function getCurrentRotation(el) {
+    const st = window.getComputedStyle(el);
+    const tr = st.getPropertyValue("transform");
+    if (tr === 'none') return 0;
+    const values = tr.split('(')[1].split(')')[0].split(',');
+    const a = parseFloat(values[0]);
+    const b = parseFloat(values[1]);
+    return Math.atan2(b, a) * (180 / Math.PI);
+}
+
+let previousAvatarAngle = null;
+let previousSubIndexGlobal = null;
+
+/**
+ * @brief Actualiza la rotación del brazo del avatar según la opción activa con animación de rebote.
+ * @param {number} currentSubIndex Índice real del ítem activo.
+ * @param {number} currentWindowTop Índice del primer ítem visible.
+ */
+function updateAvatarPointing(currentSubIndex, currentWindowTop) {
+    const arm = document.getElementById('avatar-arm');
+    if (!arm) return;
+    
+    // Detectamos la dirección real del cursor en la lista total de datos
+    const isMovingDownList = previousSubIndexGlobal !== null && currentSubIndex > previousSubIndexGlobal;
+    const isMovingUpList = previousSubIndexGlobal !== null && currentSubIndex < previousSubIndexGlobal;
+    previousSubIndexGlobal = currentSubIndex;
+    
+    const visualIndex = currentSubIndex - currentWindowTop;
+    
+    const angles = [
+         18, // Posición 0
+         15, // Posición 1
+         12, // Posición 2
+          9, // Posición 3
+          6, // Posición 4
+          3, // Posición 5
+          0, // Posición 6
+         -3  // Posición 7
+    ];
+    
+    const clampedIndex = Math.max(0, Math.min(visualIndex, 7));
+    const targetAngle = angles[clampedIndex];
+    
+    if (previousAvatarAngle === null) {
+        arm.style.transform = `rotate(${targetAngle}deg)`;
+        previousAvatarAngle = targetAngle;
+        return;
+    }
+    
+    let currentVisualAngle = getCurrentRotation(arm);
+    
+    // Determinamos la dirección del movimiento.
+    // Si el ángulo objetivo es distinto al actual, es obvio.
+    // Si es el mismo (estamos en los bordes y la lista hace scroll), 
+    // usamos la dirección real en la que el usuario ha movido el cursor.
+    let isMovingUpVisual;
+    if (Math.abs(targetAngle - currentVisualAngle) > 0.1) {
+        isMovingUpVisual = targetAngle > currentVisualAngle;
+    } else {
+        if (isMovingUpList) {
+            isMovingUpVisual = true; // El usuario pulsó Arriba
+        } else if (isMovingDownList) {
+            isMovingUpVisual = false; // El usuario pulsó Abajo
+        } else {
+            return; // No hay movimiento real
+        }
+    }
+    
+    arm.getAnimations().forEach(a => a.cancel());
+
+    const offset = 1.5; 
+    
+    const overshoot1 = isMovingUpVisual ? targetAngle + offset : targetAngle - offset;
+    const overshoot2 = isMovingUpVisual ? targetAngle - (offset/2) : targetAngle + (offset/2); 
+    
+    arm.animate([
+        { transform: `rotate(${currentVisualAngle}deg)` },
+        { transform: `rotate(${overshoot1}deg)`, offset: 0.6 },
+        { transform: `rotate(${overshoot2}deg)`, offset: 0.85 },
+        { transform: `rotate(${targetAngle}deg)`, offset: 1.0 }
+    ], {
+        duration: 750, 
+        easing: 'ease-out', 
+        fill: 'forwards' 
+    });
+    
+    arm.style.transform = `rotate(${targetAngle}deg)`;
+    previousAvatarAngle = targetAngle;
+}
