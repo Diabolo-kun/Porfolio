@@ -201,7 +201,7 @@
                 </div>
 
                 <!-- Panel de descripción del ítem seleccionado (estilo P5) -->
-                <div class="item-description" id="item-description">
+                <div class="item-description" id="item-description" style="display: none;">
                     <p id="item-description-text" data-i18n="desc_placeholder">Selecciona un elemento para ver su descripción.</p>
                 </div>
             </div>
@@ -210,6 +210,20 @@
             <div class="submenu-right">
                 <div class="silhouette-placeholder">
                     <span>(Espacio para Silueta)</span>
+                </div>
+            </div>
+
+            <!-- VENTANA DE DESCRIPCION SUPERPUESTA -->
+            <div id="desc-overlay" class="desc-overlay">
+                <div class="desc-inner">
+                    <div class="shape-left"></div>
+                    <div class="shape-right"></div>
+                    <div class="desc-content-wrap">
+                        <div class="desc-header-box">
+                            <h2 id="desc-title-overlay">TITULO</h2>
+                        </div>
+                        <p id="desc-text-overlay">Descripción...</p>
+                    </div>
                 </div>
             </div>
         </section>

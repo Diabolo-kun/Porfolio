@@ -77,6 +77,9 @@ function openSubmenu() {
     submenuContainer.classList.remove('hidden');
     submenuContainer.classList.remove('hidden-view');
     submenuContainer.classList.add('active');
+    
+    const descOverlay = document.getElementById('desc-overlay');
+    if (descOverlay) descOverlay.classList.remove('active');
 
     sections.forEach(sec => sec.classList.remove('active'));
     const targetId = navButtons[mainIndex].getAttribute('data-target');
@@ -109,6 +112,9 @@ function closeSubmenu() {
     
     submenuContainer.classList.remove('active');
     submenuContainer.classList.add('hidden');
+    
+    const descOverlay = document.getElementById('desc-overlay');
+    if (descOverlay) descOverlay.classList.remove('active');
     
     if(portraitBg) portraitBg.classList.remove('slide-left-out');
     if(particlesContainer) particlesContainer.classList.remove('slide-left-out');
@@ -201,6 +207,30 @@ function attachSubmenuHoverLogic(items) {
             applyWindowScroll();
             renderSubmenuSelection(items);
         });
+
+        item.addEventListener('click', () => {
+            if (currentView !== 'submenu') return;
+            subIndex = index;
+            renderSubmenuSelection(items);
+            
+            const descOverlay = document.getElementById('desc-overlay');
+            const overlayTitle = document.getElementById('desc-title-overlay');
+            const overlayText = document.getElementById('desc-text-overlay');
+            
+            if (descOverlay) {
+                const desc = item.getAttribute('data-description');
+                const title = item.getAttribute('data-title') || item.textContent.replace('▶', '').trim();
+                if (overlayTitle) {
+                    overlayTitle.style.fontSize = ''; // Reset
+                    overlayTitle.textContent = title;
+                    if (overlayTitle.scrollHeight > 85) {
+                        overlayTitle.style.fontSize = '1.3rem';
+                    }
+                }
+                if (overlayText) overlayText.textContent = desc || '';
+                descOverlay.classList.add('active');
+            }
+        });
     });
 }
 
@@ -210,12 +240,29 @@ function attachSubmenuHoverLogic(items) {
  */
 function renderSubmenuSelection(items) {
     const descText = document.getElementById('item-description-text');
+    const overlayTitle = document.getElementById('desc-title-overlay');
+    const overlayText = document.getElementById('desc-text-overlay');
+    const descOverlay = document.getElementById('desc-overlay');
+
     items.forEach((item, i) => {
         if (i === subIndex) {
             item.classList.add('hovered');
+            const desc = item.getAttribute('data-description');
+            const title = item.getAttribute('data-title') || item.textContent.replace('▶', '').trim();
+            
             if (descText) {
-                const desc = item.getAttribute('data-description');
                 descText.textContent = desc || '';
+            }
+
+            if (descOverlay && descOverlay.classList.contains('active')) {
+                if (overlayTitle) {
+                    overlayTitle.style.fontSize = ''; // Reset
+                    overlayTitle.textContent = title;
+                    if (overlayTitle.scrollHeight > 85) {
+                        overlayTitle.style.fontSize = '1.3rem';
+                    }
+                }
+                if (overlayText) overlayText.textContent = desc || '';
             }
         } else {
             item.classList.remove('hovered');
@@ -235,10 +282,6 @@ function updateSubmenuVisuals(source = 'mouse') {
     adjustWindow(source);
     applyWindowScroll();
     renderSubmenuSelection(items);
-
-    if(items[subIndex]) {
-        items[subIndex].click(); 
-    }
 }
 
 document.addEventListener('keydown', (e) => {
@@ -291,9 +334,19 @@ document.addEventListener('keydown', (e) => {
                     updateSubmenuVisuals('keyboard');
                 }
             }
+        } else if (e.key === 'Enter') {
+            e.preventDefault();
+            if (items.length > 0 && items[subIndex]) {
+                items[subIndex].click();
+            }
         } else if (e.key === 'Escape' || e.key === 'Backspace') {
             e.preventDefault();
-            closeSubmenu();
+            const descOverlay = document.getElementById('desc-overlay');
+            if (descOverlay && descOverlay.classList.contains('active')) {
+                descOverlay.classList.remove('active');
+            } else {
+                closeSubmenu();
+            }
         }
     }
 });

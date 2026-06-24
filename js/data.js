@@ -25,10 +25,12 @@ async function loadPerfil() {
             const btn = document.createElement('button');
             btn.className = 'submenu-item';
             btn.setAttribute('data-description', item.descripcion);
+            btn.setAttribute('data-title', item.titulo);
             btn.innerHTML = `<span class="sub-arrow">▶</span> ${item.titulo}`;
             listPane.appendChild(btn);
         });
         perfilLoaded = true;
+        if (typeof updateSubmenuVisuals === 'function') updateSubmenuVisuals('keyboard');
     } catch (error) {
         console.error('Error cargando perfil:', error);
         listPane.innerHTML = '<p>Error al cargar perfil.</p>';
@@ -56,10 +58,12 @@ async function loadExperiencia() {
             const btn = document.createElement('button');
             btn.className = 'submenu-item';
             btn.setAttribute('data-description', item.descripcion);
+            btn.setAttribute('data-title', item.titulo);
             btn.innerHTML = `<span class="sub-arrow">▶</span> ${item.titulo}`;
             listPane.appendChild(btn);
         });
         experienciaLoaded = true;
+        if (typeof updateSubmenuVisuals === 'function') updateSubmenuVisuals('keyboard');
     } catch (error) {
         console.error('Error cargando experiencia:', error);
         listPane.innerHTML = '<p>Error al cargar experiencia.</p>';
@@ -115,11 +119,13 @@ async function loadProyectos() {
             btn.className = 'submenu-item';
             const tipoTag = proy.tipo ? `[${proy.tipo.toUpperCase()}] ` : '';
             btn.setAttribute('data-description', tipoTag + proy.descripcion_corta);
+            btn.setAttribute('data-title', proy.titulo);
             btn.innerHTML = `<span class="sub-arrow">▶</span> ${proy.titulo}`;
             listPane.appendChild(btn);
         });
 
         proyectosLoaded = true;
+        if (typeof updateSubmenuVisuals === 'function') updateSubmenuVisuals('keyboard');
     } catch (error) {
         console.error('Error cargando proyectos:', error);
         listPane.innerHTML = '<p>Error al cargar proyectos.</p>';
