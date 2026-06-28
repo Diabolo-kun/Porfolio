@@ -199,10 +199,123 @@
     overflow: hidden;
 }
 
-@media (max-width: 900px) {
-    .split-view { flex-direction: column; height: auto; overflow: hidden; }
-    .list-pane { flex: 0 0 150px; border-right: none; border-bottom: 3px solid var(--color-black); padding-right: 0; padding-bottom: 10px; }
-    .detail-pane { flex: 1; }
+@media (max-width: 768px) {
+    #submenu-container {
+        flex-direction: column;
+    }
+
+    .back-button {
+        width: auto;
+        min-width: unset;
+        font-size: 0.9rem;
+        padding: 8px 15px;
+        top: 10px;
+        left: 10px;
+    }
+
+    .submenu-left {
+        flex: 1;
+        padding: 60px 15px 15px 15px;
+    }
+
+    .submenu-header {
+        padding: 8px 20px;
+        margin-bottom: 20px;
+    }
+
+    #submenu-title-text {
+        font-size: 1.5rem;
+        letter-spacing: 1px;
+    }
+
+    .submenu-list-container {
+        height: auto;
+        max-height: 50vh;
+        overflow-y: auto;
+    }
+
+    .submenu-item {
+        height: 45px;
+        font-size: 1rem;
+        padding: 0 12px;
+        clip-path: polygon(0 0, 100% 0, 92% 100%, 0 100%);
+    }
+
+    .submenu-item.hovered,
+    .submenu-item.active {
+        clip-path: polygon(0 0, 100% 0, 92% 100%, 0 100%);
+    }
+
+    .item-description {
+        height: auto;
+        max-height: 60px;
+        margin-top: 10px;
+        padding: 10px 15px;
+    }
+
+    .item-description p {
+        font-size: 0.85rem;
+        -webkit-line-clamp: 2;
+    }
+
+    /* Ocultar silueta en móvil para dar espacio */
+    .submenu-right {
+        display: none;
+    }
+
+    /* Overlay de descripción: ocupa todo el ancho en móvil */
+    .desc-overlay {
+        width: 92vw;
+        right: 4vw;
+        clip-path: polygon(5% 0, 100% 0, 95% 100%, 0 100%);
+        transform: translate(3vw, -100vh);
+    }
+
+    .desc-overlay.active {
+        transform: translate(0, 0);
+    }
+
+    .desc-inner {
+        clip-path: polygon(5% 0, 100% 0, 95% 100%, 0 100%);
+    }
+
+    .shape-left {
+        width: 5%;
+    }
+
+    .shape-right {
+        width: 5%;
+    }
+
+    .desc-content-wrap {
+        padding: 50px 10px 40px 10px;
+    }
+
+    .desc-header-box {
+        width: 90%;
+        height: auto;
+        min-height: 60px;
+        padding: 10px 15px;
+        margin-bottom: 20px;
+    }
+
+    .desc-header-box h2 {
+        font-size: 1.3rem;
+    }
+
+    #desc-text-overlay {
+        font-size: 0.95rem;
+        line-height: 1.5;
+    }
+
+    /* Avatar container en móvil */
+    .avatar-container {
+        transform: scale(1);
+        width: 50vw;
+        height: 40vh;
+        right: 5%;
+        bottom: 0;
+    }
 }
 
 /* ==========================================================================
