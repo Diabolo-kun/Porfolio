@@ -59,6 +59,7 @@ function startTransition() {
     // FASE 6: Animar aparición de los botones del menú
     setTimeout(() => {
         currentView = 'menu';
+        history.pushState({ view: 'menu' }, '', '');
         navButtons.forEach(btn => btn.classList.add('menu-reveal'));
         if (typeof updateMainMenuVisuals === 'function') updateMainMenuVisuals();
         if (typeof loadPerfil === 'function') loadPerfil();

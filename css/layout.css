@@ -308,14 +308,17 @@
 }
 
 @media (max-width: 768px) {
-    /* --- RETRATO: más pequeño y centrado por detrás --- */
+    /* --- RETRATO: llena toda la pantalla sin deformarse --- */
     .portrait-bg {
         padding-left: 0;
         justify-content: center;
     }
     .portrait-img {
-        height: 65%;
-        opacity: 0.35; /* Más transparente para que el menú sea legible */
+        height: 100%;
+        width: 100%;
+        object-fit: cover;
+        object-position: 80% top;
+        opacity: 0.7;
     }
 
     /* --- MENÚ: centrado y texto mucho más pequeño --- */
@@ -411,10 +414,6 @@
 
 /* Pantallas muy pequeñas (< 400px) */
 @media (max-width: 400px) {
-    .portrait-img {
-        height: 55%;
-    }
-
     .nav-btn .btn-text {
         font-size: 1.2rem;
     }
@@ -424,3 +423,4 @@
         max-width: 280px;
     }
 }
+

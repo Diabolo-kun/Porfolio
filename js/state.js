@@ -24,3 +24,6 @@ const VISIBLE_COUNT = 8;
 
 /** @const {number} ITEM_HEIGHT Altura en píxeles de cada elemento del submenú (60px altura + 10px gap) */
 const ITEM_HEIGHT = 70;
+
+/** @const {number} ITEM_HEIGHT_MOBILE Altura en móvil (45px altura + 10px gap) */
+const ITEM_HEIGHT_MOBILE = 55;

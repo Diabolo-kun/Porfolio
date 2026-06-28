@@ -77,6 +77,7 @@ navButtons.forEach((btn, index) => {
  */
 function openSubmenu() {
     currentView = 'submenu';
+    history.pushState({ view: 'submenu' }, '', '');
     
     mainMenuContainer.classList.remove('active');
     mainMenuContainer.classList.add('hidden-view');
@@ -200,7 +201,8 @@ function applyWindowScroll() {
     const targetId = navButtons[mainIndex].getAttribute('data-target');
     const activeListPane = document.querySelector(`#${targetId} .list-pane`);
     if (!activeListPane) return;
-    activeListPane.style.transform = `translateY(-${windowTop * ITEM_HEIGHT}px)`;
+    const itemH = (typeof isMobile === 'function' && isMobile()) ? ITEM_HEIGHT_MOBILE : ITEM_HEIGHT;
+    activeListPane.style.transform = `translateY(-${windowTop * itemH}px)`;
     activeListPane.style.transition = 'transform 0.15s ease-out';
     
     updateAvatarPointing(subIndex, windowTop);
@@ -244,6 +246,7 @@ function attachSubmenuHoverLogic(items) {
                 }
                 if (overlayText) overlayText.textContent = desc || '';
                 descOverlay.classList.add('active');
+                history.pushState({ view: 'description' }, '', '');
             }
         });
     });
@@ -481,3 +484,116 @@ function updateAvatarPointing(currentSubIndex, currentWindowTop) {
     arm.style.transform = `rotate(${targetAngle}deg)`;
     previousAvatarAngle = targetAngle;
 }
+
+/* ==========================================================================
+   SOPORTE TÁCTIL PARA MÓVIL
+   ========================================================================== */
+
+/**
+ * @brief Detecta si estamos en un dispositivo móvil/táctil.
+ * @return {boolean}
+ */
+function isMobile() {
+    return window.matchMedia('(max-width: 768px)').matches;
+}
+
+let touchStartY = null;
+let touchStartX = null;
+let touchThrottled = false;
+
+document.addEventListener('touchstart', (e) => {
+    touchStartY = e.touches[0].clientY;
+    touchStartX = e.touches[0].clientX;
+}, { passive: true });
+
+document.addEventListener('touchend', (e) => {
+    if (touchStartY === null || touchStartX === null) return;
+    
+    const touchEndY = e.changedTouches[0].clientY;
+    const touchEndX = e.changedTouches[0].clientX;
+    const diffY = touchStartY - touchEndY;
+    const diffX = touchStartX - touchEndX;
+    const minSwipe = 30;
+    
+    // Swipe vertical = navegar ítems (mismo sistema que wheel/keyboard)
+    if (Math.abs(diffY) > Math.abs(diffX) && Math.abs(diffY) > minSwipe) {
+        if (currentView === 'submenu') {
+            if (touchThrottled) { touchStartY = null; touchStartX = null; return; }
+            touchThrottled = true;
+            setTimeout(() => { touchThrottled = false; }, 120);
+            
+            const items = getCurrentSubmenuItems();
+            if (items.length === 0) { touchStartY = null; touchStartX = null; return; }
+            
+            if (diffY > 0) {
+                // Swipe arriba = siguiente
+                subIndex = (subIndex < items.length - 1) ? subIndex + 1 : items.length - 1;
+            } else {
+                // Swipe abajo = anterior
+                subIndex = (subIndex > 0) ? subIndex - 1 : 0;
+            }
+            updateSubmenuVisuals('keyboard');
+        }
+    }
+    
+    // Swipe horizontal hacia la derecha = volver atrás (usa history para consistencia)
+    if (Math.abs(diffX) > Math.abs(diffY) && diffX < -minSwipe) {
+        if (currentView === 'submenu' || currentView === 'menu') {
+            history.back();
+        }
+    }
+    
+    touchStartY = null;
+    touchStartX = null;
+}, { passive: true });
+
+/**
+ * @brief Cerrar el overlay de descripción al tocar fuera de él en móvil.
+ */
+document.addEventListener('click', (e) => {
+    if (!isMobile()) return;
+    const descOverlay = document.getElementById('desc-overlay');
+    if (!descOverlay || !descOverlay.classList.contains('active')) return;
+    
+    const descInner = descOverlay.querySelector('.desc-inner');
+    if (descInner && !descInner.contains(e.target)) {
+        history.back();
+    }
+});
+
+/* ==========================================================================
+   BOTÓN ATRÁS DEL NAVEGADOR (History API)
+   ========================================================================== */
+
+/**
+ * @brief Intercepta el botón atrás del navegador/móvil para navegar entre pantallas
+ *        en vez de salir de la web.
+ *
+ * Flujo: descripción → submenu → menu → intro
+ */
+window.addEventListener('popstate', (e) => {
+    const descOverlay = document.getElementById('desc-overlay');
+    
+    // Si hay un overlay de descripción abierto, cerrarlo
+    if (descOverlay && descOverlay.classList.contains('active')) {
+        descOverlay.classList.remove('active');
+        return;
+    }
+    
+    // Si estamos en un submenú, volver al menú principal
+    if (currentView === 'submenu') {
+        closeSubmenu();
+        return;
+    }
+    
+    // Si estamos en el menú principal, volver a la intro
+    if (currentView === 'menu') {
+        if (typeof returnToIntro === 'function') {
+            returnToIntro();
+        }
+        return;
+    }
+});
+
+// Establecer el estado inicial de la History API
+history.replaceState({ view: 'intro' }, '', '');
